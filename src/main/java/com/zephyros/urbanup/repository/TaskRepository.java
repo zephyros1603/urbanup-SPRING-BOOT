@@ -23,10 +23,10 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     
     // Eager fetching versions for common queries
     @Query("SELECT t FROM Task t LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller WHERE t.status = :status")
-    List<Task> findByStatusWithUsersEager(@Param("status") Task.TaskStatus status);
+    List<Task> findAllByStatusEager(@Param("status") Task.TaskStatus status);
     
     @Query("SELECT t FROM Task t LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller WHERE t.category = :category")
-    List<Task> findByCategoryWithUsersEager(@Param("category") Task.TaskCategory category);
+    List<Task> findAllByCategoryEager(@Param("category") Task.TaskCategory category);
     
     // Basic status queries
     List<Task> findByStatus(Task.TaskStatus status);

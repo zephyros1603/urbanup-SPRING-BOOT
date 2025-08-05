@@ -386,19 +386,19 @@ public class TaskService {
                                  Task.TaskStatus status, int limit, int offset) {
         
         if (category != null) {
-            return taskRepository.findByCategoryWithUsersEager(category)
+            return taskRepository.findAllByCategoryEager(category)
                     .stream()
                     .skip(offset)
                     .limit(limit)
                     .toList();
         } else if (status != null) {
-            return taskRepository.findByStatusWithUsersEager(status)
+            return taskRepository.findAllByStatusEager(status)
                     .stream()
                     .skip(offset)
                     .limit(limit)
                     .toList();
         } else {
-            return taskRepository.findByStatusWithUsersEager(Task.TaskStatus.OPEN)
+            return taskRepository.findAllByStatusEager(Task.TaskStatus.OPEN)
                     .stream()
                     .skip(offset)
                     .limit(limit)

@@ -20134,3 +20134,3410 @@ Identify and stop the process that's listening on port 8080 or configure this ap
 2025-08-05 12:29:00 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error?keyword=grocery
 2025-08-05 12:29:00 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error?keyword=grocery
 2025-08-05 12:29:00 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:33:19 [main] INFO  c.z.urbanup.UrbanupApplication - Starting UrbanupApplication using Java 23.0.2 with PID 32107 (/Users/sanjanathyady/Desktop/urbanupMvp/urbanup/target/classes started by sanjanathyady in /Users/sanjanathyady/Desktop/urbanupMvp/urbanup)
+2025-08-05 12:33:19 [main] DEBUG c.z.urbanup.UrbanupApplication - Running with Spring Boot v3.5.4, Spring v6.2.9
+2025-08-05 12:33:19 [main] INFO  c.z.urbanup.UrbanupApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 9 JPA repository interfaces.
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.ChatRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.MessageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.NotificationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.TaskApplicationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.TaskRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.UserProfileRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:33:20 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-08-05 12:33:20 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-05 12:33:20 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-05 12:33:20 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-08-05 12:33:20 [main] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-08-05 12:33:20 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 830 ms
+2025-08-05 12:33:20 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-05 12:33:20 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-08-05 12:33:20 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-05 12:33:20 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-05 12:33:21 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-05 12:33:21 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4c000cc4
+2025-08-05 12:33:21 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-05 12:33:21 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-05 12:33:21 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 13.20
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-05 12:33:21 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-05 12:33:21 [main] INFO  o.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@40a2fdd2] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2025-08-05 12:33:22 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-05 12:33:22 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-05 12:33:23 [main] DEBUG c.z.u.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-05 12:33:23 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-08-05 12:33:26 [main] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-08-05 12:33:26 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-08-05 12:33:26 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-05 12:33:26 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-05 12:33:26 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-05 12:33:26 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-08-05 12:33:26 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-08-05 12:33:49 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /tasks/search?keyword=grocery
+2025-08-05 12:33:49 [http-nio-8080-exec-4] WARN  c.z.u.s.JwtAuthenticationFilter - JWT Token validation failed: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2025-08-05 12:33:49 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:16 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing POST /auth/login
+2025-08-05 12:34:16 [http-nio-8080-exec-6] DEBUG c.z.u.s.JwtAuthenticationFilter - JWT Token does not begin with Bearer String
+2025-08-05 12:34:16 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:16 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured POST /auth/login
+2025-08-05 12:34:16 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:16 [http-nio-8080-exec-6] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Failed to find user 'test.user@example.com'
+2025-08-05 12:34:16 [http-nio-8080-exec-6] DEBUG o.s.s.authentication.ProviderManager - Authentication failed with provider DaoAuthenticationProvider since Bad credentials
+2025-08-05 12:34:17 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /tasks/search?keyword=grocery
+2025-08-05 12:34:17 [http-nio-8080-exec-8] DEBUG c.z.u.s.JwtAuthenticationFilter - JWT Token does not begin with Bearer String
+2025-08-05 12:34:17 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:35 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing POST /auth/login
+2025-08-05 12:34:35 [http-nio-8080-exec-10] DEBUG c.z.u.s.JwtAuthenticationFilter - JWT Token does not begin with Bearer String
+2025-08-05 12:34:35 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:35 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured POST /auth/login
+2025-08-05 12:34:35 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:35 [http-nio-8080-exec-10] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Failed to find user 'test.user@example.com'
+2025-08-05 12:34:35 [http-nio-8080-exec-10] DEBUG o.s.s.authentication.ProviderManager - Authentication failed with provider DaoAuthenticationProvider since Bad credentials
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /actuator/health
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG c.z.u.s.JwtAuthenticationFilter - JWT Token does not begin with Bearer String
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /actuator/health
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:51 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /
+2025-08-05 12:34:51 [http-nio-8080-exec-6] DEBUG c.z.u.s.JwtAuthenticationFilter - JWT Token does not begin with Bearer String
+2025-08-05 12:34:51 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:51 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /
+2025-08-05 12:34:51 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-08-05 12:34:51 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error
+2025-08-05 12:34:51 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:51 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing POST /auth/register
+2025-08-05 12:34:51 [http-nio-8080-exec-8] DEBUG c.z.u.s.JwtAuthenticationFilter - JWT Token does not begin with Bearer String
+2025-08-05 12:34:51 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:51 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured POST /auth/register
+2025-08-05 12:34:51 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+2025-08-05 12:34:51 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing POST /auth/register
+2025-08-05 12:34:51 [http-nio-8080-exec-9] DEBUG c.z.u.s.JwtAuthenticationFilter - JWT Token does not begin with Bearer String
+2025-08-05 12:34:51 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:51 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured POST /auth/register
+2025-08-05 12:34:51 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+2025-08-05 12:34:51 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.phone_number=? 
+    fetch
+        first ? rows only
+2025-08-05 12:34:51 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.zephyros.urbanup.model.User */insert 
+    into
+        users (account_created_from, created_at, email, fcm_token, first_name, is_active, is_email_verified, is_phone_verified, last_login, last_name, password, phone_number, profile_picture_url, rating_as_fulfiller, rating_as_poster, ratings_as_fulfiller_count, ratings_as_post_count, theme, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-05 12:34:51 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.zephyros.urbanup.model.UserProfile */insert 
+    into
+        user_profiles (address_line1, address_line2, address_verified, availability_status, background_check_status, bio, city, country, created_at, date_of_birth, email_verified, emergency_contact_name, emergency_contact_phone, emergency_contact_relationship, gender, government_id_number, government_id_type, government_id_verified, home_latitude, home_longitude, kyc_status, last_location_update, notification_preferences, phone_verified, postal_code, preferred_radius_km, privacy_settings, state, tasks_completed, tasks_posted, total_earnings, total_spent, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-05 12:34:51 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.zephyros.urbanup.model.Notification */insert 
+    into
+        notifications (chat_id, created_at, deep_link_url, expires_at, is_pushed, is_read, message, payment_id, priority, pushed_at, read_at, review_id, task_id, title, type, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-05 12:34:51 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    /* update
+        for com.zephyros.urbanup.model.User */update users 
+    set
+        account_created_from=?,
+        created_at=?,
+        email=?,
+        fcm_token=?,
+        first_name=?,
+        is_active=?,
+        is_email_verified=?,
+        is_phone_verified=?,
+        last_login=?,
+        last_name=?,
+        password=?,
+        phone_number=?,
+        profile_picture_url=?,
+        rating_as_fulfiller=?,
+        rating_as_poster=?,
+        ratings_as_fulfiller_count=?,
+        ratings_as_post_count=?,
+        theme=?,
+        updated_at=? 
+    where
+        id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /auth/login
+2025-08-05 12:34:51 [http-nio-8080-exec-1] DEBUG c.z.u.s.JwtAuthenticationFilter - JWT Token does not begin with Bearer String
+2025-08-05 12:34:51 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:34:51 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /auth/login
+2025-08-05 12:34:51 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:51 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-1] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2025-08-05 12:34:51 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:51 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /users/18
+2025-08-05 12:34:51 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:51 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /users/18
+2025-08-05 12:34:51 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /users/18
+2025-08-05 12:34:51 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:51 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured PUT /users/18
+2025-08-05 12:34:51 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.phone_number=? 
+    fetch
+        first ? rows only
+2025-08-05 12:34:51 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    /* update
+        for com.zephyros.urbanup.model.User */update users 
+    set
+        account_created_from=?,
+        created_at=?,
+        email=?,
+        fcm_token=?,
+        first_name=?,
+        is_active=?,
+        is_email_verified=?,
+        is_phone_verified=?,
+        last_login=?,
+        last_name=?,
+        password=?,
+        phone_number=?,
+        profile_picture_url=?,
+        rating_as_fulfiller=?,
+        rating_as_poster=?,
+        ratings_as_fulfiller_count=?,
+        ratings_as_post_count=?,
+        theme=?,
+        updated_at=? 
+    where
+        id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /users/search?searchTerm=test
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /users/search?searchTerm=test
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) 
+        OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) 
+        OR LOWER(u.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')) */ select
+            u1_0.id,
+            u1_0.account_created_from,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.fcm_token,
+            u1_0.first_name,
+            u1_0.is_active,
+            u1_0.is_email_verified,
+            u1_0.is_phone_verified,
+            u1_0.last_login,
+            u1_0.last_name,
+            u1_0.password,
+            u1_0.phone_number,
+            u1_0.profile_picture_url,
+            u1_0.rating_as_fulfiller,
+            u1_0.rating_as_poster,
+            u1_0.ratings_as_fulfiller_count,
+            u1_0.ratings_as_post_count,
+            u1_0.theme,
+            u1_0.updated_at 
+        from
+            users u1_0 
+        where
+            lower(u1_0.first_name) like lower(('%'||?||'%')) escape '' 
+            or lower(u1_0.last_name) like lower(('%'||?||'%')) escape '' 
+            or lower(u1_0.email) like lower(('%'||?||'%')) escape ''
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /users/top-posters?minRating=4.0
+2025-08-05 12:34:51 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:51 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /users/top-posters?minRating=4.0
+2025-08-05 12:34:51 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        u 
+    FROM
+        User u 
+    WHERE
+        u.ratingAsPoster >= :minRating 
+    ORDER BY
+        u.ratingAsPoster DESC */ select
+            u1_0.id,
+            u1_0.account_created_from,
+            u1_0.created_at,
+            u1_0.email,
+            u1_0.fcm_token,
+            u1_0.first_name,
+            u1_0.is_active,
+            u1_0.is_email_verified,
+            u1_0.is_phone_verified,
+            u1_0.last_login,
+            u1_0.last_name,
+            u1_0.password,
+            u1_0.phone_number,
+            u1_0.profile_picture_url,
+            u1_0.rating_as_fulfiller,
+            u1_0.rating_as_poster,
+            u1_0.ratings_as_fulfiller_count,
+            u1_0.ratings_as_post_count,
+            u1_0.theme,
+            u1_0.updated_at 
+        from
+            users u1_0 
+        where
+            u1_0.rating_as_poster>=? 
+        order by
+            u1_0.rating_as_poster desc
+2025-08-05 12:34:51 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing POST /tasks
+2025-08-05 12:34:51 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:51 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured POST /tasks
+2025-08-05 12:34:51 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.zephyros.urbanup.model.Task */insert 
+    into
+        tasks (accepted_at, address_details, category, completed_at, confirmed_at, created_at, deadline, description, estimated_duration_hours, fulfiller_id, is_urgent, latitude, location, longitude, poster_id, price, pricing_type, requires_verification, special_instructions, started_at, status, title, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-05 12:34:51 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.zephyros.urbanup.model.Notification */insert 
+    into
+        notifications (chat_id, created_at, deep_link_url, expires_at, is_pushed, is_read, message, payment_id, priority, pushed_at, read_at, review_id, task_id, title, type, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /tasks
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /tasks
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        t 
+    FROM
+        Task t 
+    LEFT JOIN
+        
+    FETCH
+        t.poster 
+    LEFT JOIN
+        
+    FETCH
+        t.fulfiller */ select
+            t1_0.id,
+            t1_0.accepted_at,
+            t1_0.address_details,
+            t1_0.category,
+            t1_0.completed_at,
+            t1_0.confirmed_at,
+            t1_0.created_at,
+            t1_0.deadline,
+            t1_0.description,
+            t1_0.estimated_duration_hours,
+            f1_0.id,
+            f1_0.account_created_from,
+            f1_0.created_at,
+            f1_0.email,
+            f1_0.fcm_token,
+            f1_0.first_name,
+            f1_0.is_active,
+            f1_0.is_email_verified,
+            f1_0.is_phone_verified,
+            f1_0.last_login,
+            f1_0.last_name,
+            f1_0.password,
+            f1_0.phone_number,
+            f1_0.profile_picture_url,
+            f1_0.rating_as_fulfiller,
+            f1_0.rating_as_poster,
+            f1_0.ratings_as_fulfiller_count,
+            f1_0.ratings_as_post_count,
+            f1_0.theme,
+            f1_0.updated_at,
+            t1_0.is_urgent,
+            t1_0.latitude,
+            t1_0.location,
+            t1_0.longitude,
+            t1_0.poster_id,
+            p1_0.id,
+            p1_0.account_created_from,
+            p1_0.created_at,
+            p1_0.email,
+            p1_0.fcm_token,
+            p1_0.first_name,
+            p1_0.is_active,
+            p1_0.is_email_verified,
+            p1_0.is_phone_verified,
+            p1_0.last_login,
+            p1_0.last_name,
+            p1_0.password,
+            p1_0.phone_number,
+            p1_0.profile_picture_url,
+            p1_0.rating_as_fulfiller,
+            p1_0.rating_as_poster,
+            p1_0.ratings_as_fulfiller_count,
+            p1_0.ratings_as_post_count,
+            p1_0.theme,
+            p1_0.updated_at,
+            t1_0.price,
+            t1_0.pricing_type,
+            t1_0.requires_verification,
+            t1_0.special_instructions,
+            t1_0.started_at,
+            t1_0.status,
+            t1_0.title,
+            t1_0.updated_at 
+        from
+            tasks t1_0 
+        left join
+            users p1_0 
+                on p1_0.id=t1_0.poster_id 
+        left join
+            users f1_0 
+                on f1_0.id=t1_0.fulfiller_id
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /tasks/search?keyword=grocery
+2025-08-05 12:34:51 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:34:51 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:34:51 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /tasks/search?keyword=grocery
+2025-08-05 12:34:51 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        t1_0.id,
+        t1_0.accepted_at,
+        t1_0.address_details,
+        t1_0.category,
+        t1_0.completed_at,
+        t1_0.confirmed_at,
+        t1_0.created_at,
+        t1_0.deadline,
+        t1_0.description,
+        t1_0.estimated_duration_hours,
+        t1_0.fulfiller_id,
+        t1_0.is_urgent,
+        t1_0.latitude,
+        t1_0.location,
+        t1_0.longitude,
+        t1_0.poster_id,
+        t1_0.price,
+        t1_0.pricing_type,
+        t1_0.requires_verification,
+        t1_0.special_instructions,
+        t1_0.started_at,
+        t1_0.status,
+        t1_0.title,
+        t1_0.updated_at 
+    from
+        tasks t1_0 
+    where
+        t1_0.status=?
+2025-08-05 12:34:51 [http-nio-8080-exec-4] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotWritableException: Could not write JSON: Could not initialize proxy [com.zephyros.urbanup.model.User#15] - no session]
+2025-08-05 12:34:51 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error?keyword=grocery
+2025-08-05 12:34:51 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error?keyword=grocery
+2025-08-05 12:34:51 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:35:21 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-05 12:35:23 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-05 12:35:23 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-05 12:35:23 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-08-05 12:35:23 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-08-05 12:35:27 [main] INFO  c.z.urbanup.UrbanupApplication - Starting UrbanupApplication using Java 23.0.2 with PID 34650 (/Users/sanjanathyady/Desktop/urbanupMvp/urbanup/target/classes started by sanjanathyady in /Users/sanjanathyady/Desktop/urbanupMvp/urbanup)
+2025-08-05 12:35:27 [main] DEBUG c.z.urbanup.UrbanupApplication - Running with Spring Boot v3.5.4, Spring v6.2.9
+2025-08-05 12:35:27 [main] INFO  c.z.urbanup.UrbanupApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 9 JPA repository interfaces.
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.ChatRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.MessageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.NotificationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.TaskApplicationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.TaskRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.UserProfileRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.zephyros.urbanup.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-05 12:35:27 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-08-05 12:35:27 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-08-05 12:35:27 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-05 12:35:27 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-08-05 12:35:27 [main] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring embedded WebApplicationContext
+2025-08-05 12:35:27 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 819 ms
+2025-08-05 12:35:28 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-05 12:35:28 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-08-05 12:35:28 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-08-05 12:35:28 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-05 12:35:28 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-08-05 12:35:28 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@460e5ffe
+2025-08-05 12:35:28 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-08-05 12:35:28 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-05 12:35:28 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 13.20
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-05 12:35:28 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-05 12:35:28 [main] INFO  o.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@a94c8e3] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2025-08-05 12:35:29 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-05 12:35:29 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-05 12:35:30 [main] DEBUG c.z.u.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-05 12:35:30 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-08-05 12:35:32 [main] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-08-05 12:35:33 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api'
+2025-08-05 12:35:33 [main] INFO  c.z.urbanup.UrbanupApplication - Started UrbanupApplication in 6.378 seconds (process running for 6.538)
+2025-08-05 12:36:05 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-05 12:36:05 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-05 12:36:05 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2025-08-05 12:36:05 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /auth/register
+2025-08-05 12:36:05 [http-nio-8080-exec-1] DEBUG c.z.u.s.JwtAuthenticationFilter - JWT Token does not begin with Bearer String
+2025-08-05 12:36:05 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-08-05 12:36:05 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /auth/register
+2025-08-05 12:36:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+2025-08-05 12:36:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        u1_0.phone_number=? 
+    fetch
+        first ? rows only
+2025-08-05 12:36:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.zephyros.urbanup.model.User */insert 
+    into
+        users (account_created_from, created_at, email, fcm_token, first_name, is_active, is_email_verified, is_phone_verified, last_login, last_name, password, phone_number, profile_picture_url, rating_as_fulfiller, rating_as_poster, ratings_as_fulfiller_count, ratings_as_post_count, theme, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-05 12:36:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.zephyros.urbanup.model.UserProfile */insert 
+    into
+        user_profiles (address_line1, address_line2, address_verified, availability_status, background_check_status, bio, city, country, created_at, date_of_birth, email_verified, emergency_contact_name, emergency_contact_phone, emergency_contact_relationship, gender, government_id_number, government_id_type, government_id_verified, home_latitude, home_longitude, kyc_status, last_location_update, notification_preferences, phone_verified, postal_code, preferred_radius_km, privacy_settings, state, tasks_completed, tasks_posted, total_earnings, total_spent, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-05 12:36:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* insert for
+        com.zephyros.urbanup.model.Notification */insert 
+    into
+        notifications (chat_id, created_at, deep_link_url, expires_at, is_pushed, is_read, message, payment_id, priority, pushed_at, read_at, review_id, task_id, title, type, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-08-05 12:36:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    /* update
+        for com.zephyros.urbanup.model.User */update users 
+    set
+        account_created_from=?,
+        created_at=?,
+        email=?,
+        fcm_token=?,
+        first_name=?,
+        is_active=?,
+        is_email_verified=?,
+        is_phone_verified=?,
+        last_login=?,
+        last_name=?,
+        password=?,
+        phone_number=?,
+        profile_picture_url=?,
+        rating_as_fulfiller=?,
+        rating_as_poster=?,
+        ratings_as_fulfiller_count=?,
+        ratings_as_post_count=?,
+        theme=?,
+        updated_at=? 
+    where
+        id=?
+2025-08-05 12:36:05 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /tasks/search?keyword=grocery
+2025-08-05 12:36:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    /* <criteria> */ select
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2025-08-05 12:36:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:36:05 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /tasks/search?keyword=grocery
+2025-08-05 12:36:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    /* SELECT
+        t 
+    FROM
+        Task t 
+    LEFT JOIN
+        
+    FETCH
+        t.poster 
+    LEFT JOIN
+        
+    FETCH
+        t.fulfiller 
+    WHERE
+        t.status = :status */ select
+            t1_0.id,
+            t1_0.accepted_at,
+            t1_0.address_details,
+            t1_0.category,
+            t1_0.completed_at,
+            t1_0.confirmed_at,
+            t1_0.created_at,
+            t1_0.deadline,
+            t1_0.description,
+            t1_0.estimated_duration_hours,
+            f1_0.id,
+            f1_0.account_created_from,
+            f1_0.created_at,
+            f1_0.email,
+            f1_0.fcm_token,
+            f1_0.first_name,
+            f1_0.is_active,
+            f1_0.is_email_verified,
+            f1_0.is_phone_verified,
+            f1_0.last_login,
+            f1_0.last_name,
+            f1_0.password,
+            f1_0.phone_number,
+            f1_0.profile_picture_url,
+            f1_0.rating_as_fulfiller,
+            f1_0.rating_as_poster,
+            f1_0.ratings_as_fulfiller_count,
+            f1_0.ratings_as_post_count,
+            f1_0.theme,
+            f1_0.updated_at,
+            t1_0.is_urgent,
+            t1_0.latitude,
+            t1_0.location,
+            t1_0.longitude,
+            t1_0.poster_id,
+            p1_0.id,
+            p1_0.account_created_from,
+            p1_0.created_at,
+            p1_0.email,
+            p1_0.fcm_token,
+            p1_0.first_name,
+            p1_0.is_active,
+            p1_0.is_email_verified,
+            p1_0.is_phone_verified,
+            p1_0.last_login,
+            p1_0.last_name,
+            p1_0.password,
+            p1_0.phone_number,
+            p1_0.profile_picture_url,
+            p1_0.rating_as_fulfiller,
+            p1_0.rating_as_poster,
+            p1_0.ratings_as_fulfiller_count,
+            p1_0.ratings_as_post_count,
+            p1_0.theme,
+            p1_0.updated_at,
+            t1_0.price,
+            t1_0.pricing_type,
+            t1_0.requires_verification,
+            t1_0.special_instructions,
+            t1_0.started_at,
+            t1_0.status,
+            t1_0.title,
+            t1_0.updated_at 
+        from
+            tasks t1_0 
+        left join
+            users p1_0 
+                on p1_0.id=t1_0.poster_id 
+        left join
+            users f1_0 
+                on f1_0.id=t1_0.fulfiller_id 
+        where
+            t1_0.status=?
+2025-08-05 12:36:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:36:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:36:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
+2025-08-05 12:36:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        up1_0.id,
+        up1_0.address_line1,
+        up1_0.address_line2,
+        up1_0.address_verified,
+        up1_0.availability_status,
+        up1_0.background_check_status,
+        up1_0.bio,
+        up1_0.city,
+        up1_0.country,
+        up1_0.created_at,
+        up1_0.date_of_birth,
+        up1_0.email_verified,
+        up1_0.emergency_contact_name,
+        up1_0.emergency_contact_phone,
+        up1_0.emergency_contact_relationship,
+        up1_0.gender,
+        up1_0.government_id_number,
+        up1_0.government_id_type,
+        up1_0.government_id_verified,
+        up1_0.home_latitude,
+        up1_0.home_longitude,
+        up1_0.kyc_status,
+        up1_0.last_location_update,
+        up1_0.notification_preferences,
+        up1_0.phone_verified,
+        up1_0.postal_code,
+        up1_0.preferred_radius_km,
+        up1_0.privacy_settings,
+        up1_0.state,
+        up1_0.tasks_completed,
+        up1_0.tasks_posted,
+        up1_0.total_earnings,
+        up1_0.total_spent,
+        up1_0.updated_at,
+        up1_0.user_id,
+        u1_0.id,
+        u1_0.account_created_from,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.fcm_token,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.is_email_verified,
+        u1_0.is_phone_verified,
+        u1_0.last_login,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone_number,
+        u1_0.profile_picture_url,
+        u1_0.rating_as_fulfiller,
+        u1_0.rating_as_poster,
+        u1_0.ratings_as_fulfiller_count,
+        u1_0.ratings_as_post_count,
+        u1_0.theme,
+        u1_0.updated_at 
+    from
+        user_profiles up1_0 
+    join
+        users u1_0 
+            on u1_0.id=up1_0.user_id 
+    where
+        up1_0.user_id=?
