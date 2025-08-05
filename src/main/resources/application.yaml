@@ -1,0 +1,173 @@
+spring:
+  application:
+    name: urbanup
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/urbanup
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:sanjanRoot}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      auto-commit: false
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update # Use 'create-drop' for development, 'validate' for production
+    show-sql: false # Set to true for debugging SQL queries
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        use_sql_comments: true
+        order_inserts: true
+        order_updates: true
+        batch_size: 20
+        fetch_size: 50
+    open-in-view: false
+  
+  # Redis Configuration (for caching and real-time features)
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+  
+  # Security Configuration
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET:urbanup_super_secret_key_change_in_production}
+      expiration: 86400000 # 24 hours in milliseconds
+      refresh-expiration: 604800000 # 7 days in milliseconds
+
+# Server Configuration
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /api
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+  http2:
+    enabled: true
+
+# Logging Configuration
+logging:
+  level:
+    com.zephyros.urbanup: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/urbanup.log
+    max-size: 10MB
+    max-history: 30
+
+# Management & Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# Custom Application Properties
+urbanup:
+  # File Upload Configuration
+  file:
+    upload-dir: ${UPLOAD_DIR:./uploads}
+    max-file-size: 10MB
+    max-request-size: 50MB
+    allowed-types: jpg,jpeg,png,gif,pdf,doc,docx
+  
+  # Payment Configuration
+  payment:
+    stripe:
+      public-key: ${STRIPE_PUBLIC_KEY:pk_test_example}
+      secret-key: ${STRIPE_SECRET_KEY:sk_test_example}
+      webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_example}
+    platform-fee-percentage: ${PLATFORM_FEE:5.0} # 5% platform fee
+    currency: ${CURRENCY:INR}
+  
+  # Notification Configuration
+  notification:
+    fcm:
+      service-account-file: ${FCM_SERVICE_ACCOUNT:firebase-service-account.json}
+    email:
+      from: ${EMAIL_FROM:noreply@urbanup.com}
+      smtp:
+        host: ${SMTP_HOST:smtp.gmail.com}
+        port: ${SMTP_PORT:587}
+        username: ${SMTP_USERNAME:}
+        password: ${SMTP_PASSWORD:}
+  
+  # Location Configuration
+  location:
+    default-radius-km: ${DEFAULT_RADIUS:10}
+    max-radius-km: ${MAX_RADIUS:50}
+  
+  # Task Configuration
+  task:
+    max-images: ${MAX_TASK_IMAGES:5}
+    max-files: ${MAX_TASK_FILES:3}
+    auto-complete-hours: ${AUTO_COMPLETE_HOURS:72} # Auto-complete tasks after 72 hours
+  
+  # Rate Limiting
+  rate-limit:
+    requests-per-minute: ${RATE_LIMIT:60}
+    requests-per-hour: ${RATE_LIMIT_HOUR:1000}
+
+# Profile-specific configurations
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/urbanup_dev_db
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+logging:
+  level:
+    root: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+  
+  datasource:
+    url: ${DATABASE_URL}
+  
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+logging:
+  level:
+    root: INFO
+    com.zephyros.urbanup: INFO
