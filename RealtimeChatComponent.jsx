@@ -28,7 +28,7 @@ import { format } from 'date-fns';
 import { authService } from '../services/authService';
 import { apiClient } from '../services/apiClient';
 
-const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
+const RealtimeChatComponent = ({ chatId, taskId, fulfillerId, currentUserId }) => {
     // State management
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
@@ -70,13 +70,12 @@ const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
             // Create or get chat if needed
             if (!chatId && taskId && fulfillerId) {
                 await createChat();
+            } else if (chatId) {
+                 // Load existing messages
+                await loadMessages();
+                // Connect to WebSocket
+                await connectWebSocket();
             }
-            
-            // Load existing messages
-            await loadMessages();
-            
-            // Connect to WebSocket
-            await connectWebSocket();
             
         } catch (err) {
             console.error('Failed to initialize chat:', err);
@@ -89,12 +88,16 @@ const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
     const createChat = async () => {
         try {
             const response = await apiClient.post(
-                `/realtime-chat/create/${taskId}?fulfillerId=${fulfillerId}`
+                `/api/chats`, { taskId, fulfillerId }
             );
             
             if (response.data.success) {
-                // Chat created successfully, chatId should be updated by parent component
-                console.log('Chat created:', response.data.data);
+                const newChatId = response.data.data.id;
+                // Chat created successfully, update chat ID and connect
+                // This should be handled by the parent component, but for demo purposes:
+                window.history.pushState({}, '', `?chatId=${newChatId}`);
+                await loadMessages(newChatId);
+                await connectWebSocket(newChatId);
             } else {
                 throw new Error(response.data.message);
             }
@@ -104,14 +107,15 @@ const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
         }
     };
     
-    const loadMessages = async () => {
+    const loadMessages = async (currentChatId = chatId) => {
+        if (!currentChatId) return;
         try {
-            const response = await apiClient.get(`/realtime-chat/${chatId}/messages`);
+            const response = await apiClient.get(`/api/chats/${currentChatId}/messages?userId=${currentUserId}`);
             
             if (response.data.success) {
                 setMessages(response.data.data);
                 // Mark messages as read
-                await markMessagesAsRead();
+                await markMessagesAsRead(currentChatId);
             } else {
                 throw new Error(response.data.message);
             }
@@ -121,15 +125,17 @@ const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
         }
     };
     
-    const markMessagesAsRead = async () => {
+    const markMessagesAsRead = async (currentChatId = chatId) => {
+        if (!currentChatId) return;
         try {
-            await apiClient.post(`/realtime-chat/${chatId}/mark-read`);
+            await apiClient.put(`/api/chats/${currentChatId}/messages/read?userId=${currentUserId}`);
         } catch (err) {
             console.error('Failed to mark messages as read:', err);
         }
     };
     
-    const connectWebSocket = () => {
+    const connectWebSocket = (currentChatId = chatId) => {
+        if (!currentChatId) return Promise.reject("No chat ID provided for WebSocket connection.");
         return new Promise((resolve, reject) => {
             try {
                 const token = authService.getToken();
@@ -170,7 +176,7 @@ const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
             setMessages(prev => [...prev, newMessage]);
             
             // Mark as read if not from current user
-            if (newMessage.senderId !== currentUser?.id) {
+            if (newMessage.senderId !== currentUserId) {
                 markMessagesAsRead();
             }
         });
@@ -212,19 +218,15 @@ const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
         
         try {
             // Send via REST API for reliability
-            const response = await apiClient.post(`/realtime-chat/${chatId}/send`, {
-                content: newMessage.trim()
+            const response = await apiClient.post(`/api/chats/${chatId}/messages`, {
+                content: newMessage.trim(),
+                senderId: currentUserId,
+                messageType: 'TEXT'
             });
             
             if (response.data.success) {
                 setNewMessage('');
-                // Also send via WebSocket for real-time updates
-                if (stompClient.current && stompClient.current.connected) {
-                    stompClient.current.send(`/app/chat/${chatId}/send`, {}, JSON.stringify({
-                        content: newMessage.trim(),
-                        messageType: 'TEXT'
-                    }));
-                }
+                // The WebSocket push should ideally come from the backend after saving the message
             } else {
                 setError('Failed to send message');
             }
@@ -235,7 +237,7 @@ const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
     };
     
     const handleTypingIndicator = (typingData) => {
-        if (typingData.userId === currentUser?.id) {
+        if (typingData.userId === currentUserId) {
             return; // Ignore own typing
         }
         
@@ -251,7 +253,7 @@ const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
     };
     
     const handlePresenceUpdate = (presenceData) => {
-        if (presenceData.userId === currentUser?.id) {
+        if (presenceData.userId === currentUserId) {
             return; // Ignore own presence
         }
         
@@ -331,9 +333,10 @@ const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
             const formData = new FormData();
             formData.append('file', file);
             formData.append('caption', `Shared ${file.name}`);
+            formData.append('senderId', currentUserId);
             
             const response = await apiClient.post(
-                `/realtime-chat/${chatId}/send-media`,
+                `/api/chats/${chatId}/media`,
                 formData,
                 {
                     headers: {
@@ -355,7 +358,7 @@ const RealtimeChatComponent = ({ chatId, taskId, fulfillerId }) => {
     };
     
     const renderMessage = (message, index) => {
-        const isOwnMessage = message.senderId === currentUser?.id;
+        const isOwnMessage = message.senderId === currentUserId;
         const isSystemMessage = message.messageType === 'SYSTEM';
         
         return (

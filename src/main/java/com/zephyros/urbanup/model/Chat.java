@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "chats")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "messages"})
 public class Chat {
     
     @Id
@@ -34,11 +34,11 @@ public class Chat {
     @JoinColumn(name = "task_id", nullable = false, unique = true)
     private Task task;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "poster_id", nullable = false)
     private User poster;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fulfiller_id", nullable = false)
     private User fulfiller;
     

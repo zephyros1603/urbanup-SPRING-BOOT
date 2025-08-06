@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanUp Real-Time Chat Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .chat-box { border: 1px solid #ccc; height: 300px; overflow-y: auto; padding: 10px; margin: 10px 0; }
+        .input-group { margin: 10px 0; }
+        .input-group input { padding: 5px; margin: 5px; }
+        .input-group button { padding: 8px 16px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .message { margin: 5px 0; padding: 5px; border-left: 3px solid #007bff; }
+        .status { color: #666; font-style: italic; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>UrbanUp Real-Time Chat Test</h1>
+        
+        <div class="input-group">
+            <label>JWT Token:</label><br>
+            <input type="text" id="jwtToken" placeholder="Enter JWT token" style="width: 100%; margin: 5px 0;">
+            <button onclick="connect()">Connect</button>
+            <button onclick="disconnect()">Disconnect</button>
+        </div>
+        
+        <div class="input-group">
+            <label>Chat ID:</label>
+            <input type="number" id="chatId" placeholder="Chat ID (e.g., 10)" value="10">
+            <button onclick="subscribeToChatMessages()">Subscribe to Chat</button>
+        </div>
+        
+        <div class="input-group">
+            <label>Send Message:</label>
+            <input type="text" id="messageInput" placeholder="Type your message">
+            <input type="number" id="senderId" placeholder="Sender ID (44 or 45)" value="44">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        
+        <div id="status" class="status">Disconnected</div>
+        
+        <div class="chat-box" id="chatMessages">
+            <div class="status">Chat messages will appear here...</div>
+        </div>
+        
+        <div class="input-group">
+            <h3>Test Instructions:</h3>
+            <p>1. Paste one of the JWT tokens from the users we created:</p>
+            <p><strong>John Doe (ID: 44):</strong> eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQ0LCJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc1NDUwNDc1OSwiZXhwIjoxNzU0NTkxMTU5fQ.84b6lhryJRGn8F7ReJHyoQuGldVLR5D9o6kEJEdW6QA</p>
+            <p><strong>Jane Smith (ID: 45):</strong> eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQ1LCJzdWIiOiJqYW5lLnNtaXRoQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU0NTA0ODEwLCJleHAiOjE3NTQ1OTEyMTB9.xduVI5UirRvzsyZrEXdgG_h7kqa8Rk7BHzGyoViHBxM</p>
+            <p>2. Click "Connect" to establish WebSocket connection</p>
+            <p>3. Click "Subscribe to Chat" to listen for messages in Chat ID 10</p>
+            <p>4. Type a message and click "Send" to send a real-time message</p>
+            <p>5. Open this page in multiple tabs with different tokens to test real-time communication</p>
+        </div>
+    </div>
+
+    <script>
+        let stompClient = null;
+        let chatSubscription = null;
+        
+        function connect() {
+            const token = document.getElementById('jwtToken').value.trim();
+            if (!token) {
+                addMessage('Please enter a JWT token', 'error');
+                return;
+            }
+            
+            const socket = new SockJS('http://localhost:8080/api/ws?token=' + encodeURIComponent(token));
+            stompClient = Stomp.over(socket);
+            
+            // Enable debugging
+            stompClient.debug = function(str) {
+                console.log('STOMP: ' + str);
+            };
+            
+            stompClient.connect(
+                {'Authorization': 'Bearer ' + token},
+                function(frame) {
+                    document.getElementById('status').innerHTML = '<span class="success">Connected: ' + frame + '</span>';
+                    addMessage('Connected to WebSocket successfully!', 'success');
+                    console.log('Connected: ' + frame);
+                },
+                function(error) {
+                    document.getElementById('status').innerHTML = '<span class="error">Connection failed: ' + error + '</span>';
+                    addMessage('Connection failed: ' + error, 'error');
+                    console.log('Connection error: ' + error);
+                }
+            );
+        }
+        
+        function disconnect() {
+            if (stompClient !== null) {
+                if (chatSubscription) {
+                    chatSubscription.unsubscribe();
+                    chatSubscription = null;
+                }
+                stompClient.disconnect();
+                stompClient = null;
+            }
+            document.getElementById('status').innerHTML = '<span class="status">Disconnected</span>';
+            addMessage('Disconnected from WebSocket', 'status');
+        }
+        
+        function subscribeToChatMessages() {
+            const chatId = document.getElementById('chatId').value;
+            if (!stompClient || !stompClient.connected) {
+                addMessage('Please connect to WebSocket first', 'error');
+                return;
+            }
+            
+            if (!chatId) {
+                addMessage('Please enter a Chat ID', 'error');
+                return;
+            }
+            
+            // Unsubscribe from previous subscription if exists
+            if (chatSubscription) {
+                chatSubscription.unsubscribe();
+            }
+            
+            // Subscribe to chat messages
+            chatSubscription = stompClient.subscribe('/topic/chat/' + chatId, function(message) {
+                const messageData = JSON.parse(message.body);
+                addMessage(
+                    `[${messageData.senderName}]: ${messageData.content}`,
+                    'message',
+                    new Date(messageData.createdAt).toLocaleTimeString()
+                );
+            });
+            
+            addMessage(`Subscribed to chat ${chatId} for real-time messages`, 'success');
+        }
+        
+        function sendMessage() {
+            const messageContent = document.getElementById('messageInput').value.trim();
+            const chatId = document.getElementById('chatId').value;
+            const senderId = document.getElementById('senderId').value;
+            
+            if (!stompClient || !stompClient.connected) {
+                addMessage('Please connect to WebSocket first', 'error');
+                return;
+            }
+            
+            if (!messageContent || !chatId || !senderId) {
+                addMessage('Please fill in message, chat ID, and sender ID', 'error');
+                return;
+            }
+            
+            const messageData = {
+                chatId: parseInt(chatId),
+                senderId: parseInt(senderId),
+                content: messageContent,
+                messageType: 'TEXT'
+            };
+            
+            // Send message via WebSocket
+            stompClient.send('/app/chat.sendMessage', {}, JSON.stringify(messageData));
+            
+            // Clear input
+            document.getElementById('messageInput').value = '';
+            
+            addMessage(`Sent: ${messageContent}`, 'status');
+        }
+        
+        function addMessage(content, type = 'message', timestamp = null) {
+            const chatBox = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type;
+            
+            const time = timestamp || new Date().toLocaleTimeString();
+            messageDiv.innerHTML = `<strong>[${time}]</strong> ${content}`;
+            
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        
+        // Handle Enter key in message input
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Auto-fill first token for convenience
+        document.getElementById('jwtToken').value = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQ0LCJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImlhdCI6MTc1NDUwNDc1OSwiZXhwIjoxNzU0NTkxMTU5fQ.84b6lhryJRGn8F7ReJHyoQuGldVLR5D9o6kEJEdW6QA';
+    </script>
+</body>
+</html>

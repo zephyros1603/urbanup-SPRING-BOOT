@@ -47,15 +47,17 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
            "AND m.isRead = false AND m.sender != :user ORDER BY m.createdAt DESC")
     List<Message> findUnreadMessagesForUser(@Param("user") User user);
     
-    // Count unread messages
-    @Query("SELECT COUNT(m) FROM Message m WHERE m.chat = :chat AND m.isRead = false AND m.sender != :user")
-    Long countUnreadMessagesInChat(@Param("chat") Chat chat, @Param("user") User user);
-    
+    @Query("SELECT m FROM Message m WHERE m.chat.id = :chatId AND m.isRead = false AND m.sender.id != :recipientId")
+    List<Message> findUnreadMessagesByChatIdAndRecipientId(@Param("chatId") Long chatId, @Param("recipientId") Long recipientId);
+
     @Query("SELECT COUNT(m) FROM Message m WHERE m.chat.id IN " +
            "(SELECT c.id FROM Chat c WHERE c.poster = :user OR c.fulfiller = :user) " +
            "AND m.isRead = false AND m.sender != :user")
     Long countUnreadMessagesForUser(@Param("user") User user);
     
+    @Query("SELECT COUNT(m) FROM Message m WHERE m.chat.id IN (SELECT c.id FROM Chat c WHERE c.poster.id = :userId OR c.fulfiller.id = :userId) AND m.isRead = false AND m.sender.id != :userId")
+    Long countUnreadMessagesByUserId(@Param("userId") Long userId);
+
     // Find messages by type
     List<Message> findByMessageType(Message.MessageType messageType);
     

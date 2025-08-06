@@ -19,66 +19,45 @@ import com.zephyros.urbanup.repository.UserRepository;
 @Service
 @Transactional
 public class ChatService {
-    
+
     @Autowired
     private ChatRepository chatRepository;
-    
+
     @Autowired
     private MessageRepository messageRepository;
-    
+
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private NotificationService notificationService;
-    
-    /**
-     * Get or create a chat for a task between poster and a potential fulfiller
-     */
+
     public Chat getOrCreateTaskChat(Task task, User participant) {
-        // Check if chat already exists for this task
-        Optional<Chat> existingChat = chatRepository.findByTaskId(task.getId());
-        
-        if (existingChat.isPresent()) {
-            return existingChat.get();
-        }
-        
-        // Create new chat
-        Chat chat = new Chat();
-        chat.setTask(task);
-        chat.setPoster(task.getPoster());  // Set the task poster
-        chat.setFulfiller(participant);    // Set the participant as fulfiller
-        chat.setIsActive(true);
-        chat.setCreatedAt(LocalDateTime.now());
-        chat.setUpdatedAt(LocalDateTime.now());
-        
-        return chatRepository.save(chat);
+        return chatRepository.findByTaskId(task.getId()).orElseGet(() -> {
+            Chat newChat = new Chat();
+            newChat.setTask(task);
+            newChat.setPoster(task.getPoster());
+            newChat.setFulfiller(participant);
+            newChat.setIsActive(true);
+            newChat.setCreatedAt(LocalDateTime.now());
+            newChat.setUpdatedAt(LocalDateTime.now());
+            return chatRepository.save(newChat);
+        });
     }
-    
-    /**
-     * Send a message in a chat
-     */
+
     public Message sendMessage(Long chatId, Long senderId, String content, Message.MessageType messageType) {
-        // Use eager loading to avoid proxy issues
-        Optional<Chat> chatOpt = chatRepository.findByIdWithTaskAndUsers(chatId);
-        Optional<User> senderOpt = userRepository.findById(senderId);
-        
-        if (chatOpt.isEmpty() || senderOpt.isEmpty()) {
-            throw new IllegalArgumentException("Chat or sender not found");
-        }
-        
-        Chat chat = chatOpt.get();
-        User sender = senderOpt.get();
-        
-        // Simple authorization check using IDs to avoid lazy loading
-        Task task = chat.getTask();
-        boolean isAuthorized = task.getPoster().getId().equals(sender.getId()) || 
-                              (task.getFulfiller() != null && task.getFulfiller().getId().equals(sender.getId()));
-        
-        if (!isAuthorized) {
+        Chat chat = chatRepository.findByIdWithTaskAndUsers(chatId)
+                .orElseThrow(() -> new IllegalArgumentException("Chat not found"));
+        User sender = userRepository.findById(senderId)
+                .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
+
+        boolean isParticipant = chat.getPoster().getId().equals(senderId) ||
+                (chat.getFulfiller() != null && chat.getFulfiller().getId().equals(senderId));
+
+        if (!isParticipant) {
             throw new IllegalArgumentException("User not authorized to send messages in this chat");
         }
-        
+
         Message message = new Message();
         message.setChat(chat);
         message.setSender(sender);
@@ -86,206 +65,72 @@ public class ChatService {
         message.setMessageType(messageType);
         message.setCreatedAt(LocalDateTime.now());
         message.setIsRead(false);
-        
-        Message savedMessage = messageRepository.save(message);
-        
-        // Update chat's last message timestamp
+
         chat.setUpdatedAt(LocalDateTime.now());
         chatRepository.save(chat);
-        
-        // TODO: Send notification to the other participant - commented out due to lazy loading issue
-        // User recipient = getOtherParticipant(chat, sender);
-        // if (recipient != null) {
-        //     notificationService.sendNewMessageNotification(recipient, chat, sender.getFirstName() + " " + sender.getLastName());
-        // }
-        
-        return savedMessage;
+
+        return messageRepository.save(message);
     }
-    
-    /**
-     * Get messages for a chat
-     */
+
     @Transactional(readOnly = true)
     public List<Message> getChatMessages(Long chatId, Long userId) {
-        // Use eager loading to avoid proxy issues
-        Optional<Chat> chatOpt = chatRepository.findByIdWithTaskAndUsers(chatId);
-        Optional<User> userOpt = userRepository.findById(userId);
-        
-        if (chatOpt.isEmpty() || userOpt.isEmpty()) {
-            throw new IllegalArgumentException("Chat or user not found");
-        }
-        
-        Chat chat = chatOpt.get();
-        User user = userOpt.get();
-        
-        // Simple authorization check using IDs
-        Task task = chat.getTask();
-        boolean isAuthorized = task.getPoster().getId().equals(user.getId()) || 
-                              (task.getFulfiller() != null && task.getFulfiller().getId().equals(user.getId()));
-        
-        if (!isAuthorized) {
+        Chat chat = chatRepository.findByIdWithTaskAndUsers(chatId)
+                .orElseThrow(() -> new IllegalArgumentException("Chat not found"));
+
+        boolean isParticipant = chat.getPoster().getId().equals(userId) ||
+                (chat.getFulfiller() != null && chat.getFulfiller().getId().equals(userId));
+
+        if (!isParticipant) {
             throw new IllegalArgumentException("User not authorized to view this chat");
         }
-        
-        // Use eager loading query for messages
         return messageRepository.findByChatIdWithEagerLoading(chatId);
     }
-    
-    /**
-     * Mark messages as read
-     */
+
     public void markMessagesAsRead(Long chatId, Long userId) {
-        Optional<Chat> chatOpt = chatRepository.findById(chatId);
-        Optional<User> userOpt = userRepository.findById(userId);
-        
-        if (chatOpt.isEmpty() || userOpt.isEmpty()) {
-            return;
+        List<Message> messagesToUpdate = messageRepository.findUnreadMessagesByChatIdAndRecipientId(chatId, userId);
+        if (!messagesToUpdate.isEmpty()) {
+            for (Message message : messagesToUpdate) {
+                message.setIsRead(true);
+                message.setReadAt(LocalDateTime.now());
+            }
+            messageRepository.saveAll(messagesToUpdate);
         }
-        
-        Chat chat = chatOpt.get();
-        User user = userOpt.get();
-        
-        // Validate access
-        if (!canUserAccessChat(chat, user)) {
-            return;
-        }
-        
-        // Find unread messages not sent by this user
-        // Mark all unread messages in this chat as read for this user
-        List<Message> unreadMessages = messageRepository.findUnreadMessagesInChat(chat, user);
-        
-        // Mark them as read
-        for (Message message : unreadMessages) {
-            message.setIsRead(true);
-            message.setReadAt(LocalDateTime.now());
-        }
-        
-        messageRepository.saveAll(unreadMessages);
     }
-    
-    /**
-     * Get user's chats
-     */
-        @Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
     public List<Chat> getUserChats(Long userId) {
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            throw new IllegalArgumentException("User not found");
-        }
-        
-        User user = userOpt.get();
-        return chatRepository.findChatsByUser(user);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return chatRepository.findChatsByUserWithEagerLoading(user);
     }
-    
-    /**
-     * Get chat by ID if user has access
-     */
+
     @Transactional(readOnly = true)
     public Optional<Chat> getChatById(Long chatId, Long userId) {
-        Optional<Chat> chatOpt = chatRepository.findById(chatId);
-        Optional<User> userOpt = userRepository.findById(userId);
-        
-        if (chatOpt.isEmpty() || userOpt.isEmpty()) {
-            return Optional.empty();
-        }
-        
-        Chat chat = chatOpt.get();
-        User user = userOpt.get();
-        
-        if (canUserAccessChat(chat, user)) {
-            return Optional.of(chat);
-        }
-        
-        return Optional.empty();
+        return chatRepository.findByIdWithTaskAndUsers(chatId)
+                .filter(chat -> chat.getPoster().getId().equals(userId) ||
+                        (chat.getFulfiller() != null && chat.getFulfiller().getId().equals(userId)));
     }
-    
-    /**
-     * Get unread message count for user
-     */
+
     @Transactional(readOnly = true)
     public Long getUnreadMessageCount(Long userId) {
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            return 0L;
-        }
-        
-        User user = userOpt.get();
-        
-        // Get all chats for the user and count unread messages
-        return chatRepository.findChatsByUser(user)
-                       .stream()
-                       .mapToLong(chat -> messageRepository.countUnreadMessagesInChat(chat, user))
-                       .sum();
+        return messageRepository.countUnreadMessagesByUserId(userId);
     }
-    
-    // Helper Methods
-    
-    /**
-     * Check if user can access a specific chat
-     */
-    private boolean canUserAccessChat(Chat chat, User user) {
-        Task task = chat.getTask();
-        
-        // User can access if they are the poster
-        if (task.getPoster().getId().equals(user.getId())) {
-            return true;
-        }
-        
-        // User can access if they are the assigned fulfiller
-        if (task.getFulfiller() != null && task.getFulfiller().getId().equals(user.getId())) {
-            return true;
-        }
-        
-        // For now, allow access if user has applied for the task
-        // In a more complex system, you might want to restrict this further
-        return true;
-    }
-    
-    /**
-     * Get the other participant in a chat (not the sender)
-     */
-    private User getOtherParticipant(Chat chat, User sender) {
-        Task task = chat.getTask();
-        
-        // If sender is poster, return fulfiller (if assigned)
-        if (task.getPoster().getId().equals(sender.getId())) {
-            return task.getFulfiller();
-        }
-        
-        // If sender is fulfiller, return poster
-        if (task.getFulfiller() != null && task.getFulfiller().getId().equals(sender.getId())) {
-            return task.getPoster();
-        }
-        
-        // Default to poster if unclear
-        return task.getPoster();
-    }
-    
-    /**
-     * Send system message to chat
-     */
+
     public Message sendSystemMessage(Long chatId, String content) {
-        Optional<Chat> chatOpt = chatRepository.findById(chatId);
-        if (chatOpt.isEmpty()) {
-            throw new IllegalArgumentException("Chat not found");
-        }
-        
-        Chat chat = chatOpt.get();
-        
+        Chat chat = chatRepository.findById(chatId)
+                .orElseThrow(() -> new IllegalArgumentException("Chat not found"));
+
         Message message = new Message();
         message.setChat(chat);
-        message.setSender(null); // System message has no sender
+        message.setSender(null); // System message
         message.setContent(content);
         message.setMessageType(Message.MessageType.SYSTEM);
         message.setCreatedAt(LocalDateTime.now());
-        message.setIsRead(false);
-        
-        Message savedMessage = messageRepository.save(message);
-        
-        // Update chat timestamp
+        message.setIsRead(true); // System messages are considered read
+
         chat.setUpdatedAt(LocalDateTime.now());
         chatRepository.save(chat);
-        
-        return savedMessage;
+
+        return messageRepository.save(message);
     }
 }

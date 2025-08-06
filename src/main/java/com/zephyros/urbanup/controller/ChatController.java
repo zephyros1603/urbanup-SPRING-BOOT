@@ -2,6 +2,7 @@ package com.zephyros.urbanup.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.zephyros.urbanup.dto.ApiResponse;
 import com.zephyros.urbanup.dto.ChatCreateDto;
+import com.zephyros.urbanup.dto.ChatResponseDto;
+import com.zephyros.urbanup.dto.MessageResponseDto;
 import com.zephyros.urbanup.dto.MessageSendDto;
 import com.zephyros.urbanup.model.Chat;
 import com.zephyros.urbanup.model.Message;
@@ -29,264 +33,195 @@ import com.zephyros.urbanup.service.UserService;
 @RestController
 @RequestMapping("/chats")
 public class ChatController {
-    
+
     @Autowired
     private ChatService chatService;
-    
+
     @Autowired
     private TaskService taskService;
-    
+
     @Autowired
     private UserService userService;
-    
-    /**
-     * Create or get a chat for a task
-     */
+
+    // Helper method to convert a Message entity to a MessageResponseDto
+    private MessageResponseDto convertToMessageDto(Message message) {
+        return new MessageResponseDto(
+                message.getId(),
+                message.getContent(),
+                message.getMessageType().toString(),
+                message.getCreatedAt(),
+                message.getSender() != null ? message.getSender().getFirstName() + " " + message.getSender().getLastName() : "System",
+                message.getSender() != null ? message.getSender().getId() : null,
+                message.getIsRead()
+        );
+    }
+
+    // Helper method to convert a Chat entity to a ChatResponseDto
+    private ChatResponseDto convertToChatDto(Chat chat, Long currentUserId) {
+        User otherParticipant = chat.getPoster().getId().equals(currentUserId) ? chat.getFulfiller() : chat.getPoster();
+        String otherParticipantName = otherParticipant != null ? otherParticipant.getFirstName() + " " + otherParticipant.getLastName() : "N/A";
+        Long otherParticipantId = otherParticipant != null ? otherParticipant.getId() : null;
+
+        // Eagerly fetch messages to avoid LazyInitializationException
+        List<Message> messages = chatService.getChatMessages(chat.getId(), currentUserId);
+        List<MessageResponseDto> messageDTOs = messages.stream()
+                .map(this::convertToMessageDto)
+                .collect(Collectors.toList());
+
+        return new ChatResponseDto(
+                chat.getId(),
+                chat.getTask().getTitle(),
+                otherParticipantId,
+                otherParticipantName,
+                messageDTOs,
+                chat.getUpdatedAt()
+        );
+    }
+
     @PostMapping
-    public ResponseEntity<ApiResponse<Chat>> createOrGetChat(@RequestBody ChatCreateDto chatDto) {
+    public ResponseEntity<ApiResponse<ChatResponseDto>> createOrGetChat(@RequestBody ChatCreateDto chatDto) {
         try {
-            // Get Task and User objects
             Optional<Task> taskOpt = taskService.getTaskById(chatDto.getTaskId());
             Optional<User> userOpt = userService.getUserById(chatDto.getFulfillerId());
-            
-            if (taskOpt.isEmpty()) {
-                ApiResponse<Chat> response = new ApiResponse<>(false, "Task not found", null);
-                return ResponseEntity.badRequest().body(response);
+
+            if (taskOpt.isEmpty() || userOpt.isEmpty()) {
+                return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Task or User not found", null));
             }
-            
-            if (userOpt.isEmpty()) {
-                ApiResponse<Chat> response = new ApiResponse<>(false, "User not found", null);
-                return ResponseEntity.badRequest().body(response);
-            }
-            
+
             Chat chat = chatService.getOrCreateTaskChat(taskOpt.get(), userOpt.get());
-            
-            ApiResponse<Chat> response = new ApiResponse<>(true, "Chat created/retrieved successfully", chat);
-            return ResponseEntity.ok(response);
-            
-        } catch (IllegalArgumentException e) {
-            ApiResponse<Chat> response = new ApiResponse<>(false, e.getMessage(), null);
-            return ResponseEntity.badRequest().body(response);
+            ChatResponseDto chatResponseDto = convertToChatDto(chat, taskOpt.get().getPoster().getId()); // Assuming poster initiates
+
+            return ResponseEntity.ok(new ApiResponse<>(true, "Chat created/retrieved successfully", chatResponseDto));
         } catch (Exception e) {
-            ApiResponse<Chat> response = new ApiResponse<>(false, "Failed to create/get chat", null);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Failed to create/get chat: " + e.getMessage(), null));
         }
     }
-    
-    /**
-     * Get chat by ID
-     */
+
     @GetMapping("/{chatId}")
-    public ResponseEntity<ApiResponse<Chat>> getChat(
-            @PathVariable Long chatId,
-            @RequestParam Long userId) {
+    public ResponseEntity<ApiResponse<ChatResponseDto>> getChat(@PathVariable Long chatId, @RequestParam Long userId) {
         try {
             Optional<Chat> chatOpt = chatService.getChatById(chatId, userId);
-            
-            if (chatOpt.isPresent()) {
-                ApiResponse<Chat> response = new ApiResponse<>(true, "Chat found", chatOpt.get());
-                return ResponseEntity.ok(response);
-            } else {
-                return ResponseEntity.notFound().build();
+            if (chatOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "Chat not found or user lacks access", null));
             }
-            
+            ChatResponseDto chatDto = convertToChatDto(chatOpt.get(), userId);
+            return ResponseEntity.ok(new ApiResponse<>(true, "Chat found", chatDto));
         } catch (Exception e) {
-            ApiResponse<Chat> response = new ApiResponse<>(false, "Failed to retrieve chat", null);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Failed to retrieve chat: " + e.getMessage(), null));
         }
     }
-    
-    /**
-     * Send a message in a chat
-     */
+
     @PostMapping("/{chatId}/messages")
-    public ResponseEntity<ApiResponse<String>> sendMessage(
-            @PathVariable Long chatId,
-            @RequestBody MessageSendDto messageDto) {
+    public ResponseEntity<ApiResponse<MessageResponseDto>> sendMessage(@PathVariable Long chatId, @RequestBody MessageSendDto messageDto) {
         try {
             Message message = chatService.sendMessage(
-                chatId,
-                messageDto.getSenderId(),
-                messageDto.getContent(),
-                messageDto.getMessageType() != null ? messageDto.getMessageType() : Message.MessageType.TEXT
+                    chatId,
+                    messageDto.getSenderId(),
+                    messageDto.getContent(),
+                    messageDto.getMessageType() != null ? messageDto.getMessageType() : Message.MessageType.TEXT
             );
-            
-            ApiResponse<String> response = new ApiResponse<>(true, "Message sent successfully", "Message ID: " + message.getId());
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-            
+            MessageResponseDto messageResponseDto = convertToMessageDto(message);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "Message sent successfully", messageResponseDto));
         } catch (IllegalArgumentException e) {
-            ApiResponse<String> response = new ApiResponse<>(false, e.getMessage(), null);
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
         } catch (Exception e) {
-            ApiResponse<String> response = new ApiResponse<>(false, "Failed to send message", null);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Failed to send message: " + e.getMessage(), null));
         }
     }
-    
-    /**
-     * Get messages for a chat
-     */
+
     @GetMapping("/{chatId}/messages")
-    public ResponseEntity<ApiResponse<List<Message>>> getChatMessages(
-            @PathVariable Long chatId,
-            @RequestParam Long userId) {
+    public ResponseEntity<ApiResponse<List<MessageResponseDto>>> getChatMessages(@PathVariable Long chatId, @RequestParam Long userId) {
         try {
             List<Message> messages = chatService.getChatMessages(chatId, userId);
-            
-            ApiResponse<List<Message>> response = new ApiResponse<>(true, "Messages retrieved successfully", messages);
-            return ResponseEntity.ok(response);
-            
+            List<MessageResponseDto> messageDTOs = messages.stream()
+                    .map(this::convertToMessageDto)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(new ApiResponse<>(true, "Messages retrieved successfully", messageDTOs));
         } catch (IllegalArgumentException e) {
-            ApiResponse<List<Message>> response = new ApiResponse<>(false, e.getMessage(), null);
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
         } catch (Exception e) {
-            ApiResponse<List<Message>> response = new ApiResponse<>(false, "Failed to retrieve messages", null);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Failed to retrieve messages: " + e.getMessage(), null));
         }
     }
-    
-    /**
-     * Mark messages as read
-     */
+
     @PutMapping("/{chatId}/messages/read")
-    public ResponseEntity<ApiResponse<String>> markMessagesAsRead(
-            @PathVariable Long chatId,
-            @RequestParam Long userId) {
+    public ResponseEntity<ApiResponse<String>> markMessagesAsRead(@PathVariable Long chatId, @RequestParam Long userId) {
         try {
             chatService.markMessagesAsRead(chatId, userId);
-            
-            ApiResponse<String> response = new ApiResponse<>(true, "Messages marked as read", null);
-            return ResponseEntity.ok(response);
-            
+            return ResponseEntity.ok(new ApiResponse<>(true, "Messages marked as read", null));
         } catch (IllegalArgumentException e) {
-            ApiResponse<String> response = new ApiResponse<>(false, e.getMessage(), null);
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
         } catch (Exception e) {
-            ApiResponse<String> response = new ApiResponse<>(false, "Failed to mark messages as read", null);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Failed to mark messages as read: " + e.getMessage(), null));
         }
     }
-    
-    /**
-     * Get user's chats
-     */
+
     @GetMapping("/user/{userId}")
-    public ResponseEntity<ApiResponse<List<Chat>>> getUserChats(@PathVariable Long userId) {
+    public ResponseEntity<ApiResponse<List<ChatResponseDto>>> getUserChats(@PathVariable Long userId) {
         try {
             List<Chat> chats = chatService.getUserChats(userId);
-            
-            ApiResponse<List<Chat>> response = new ApiResponse<>(true, "User chats retrieved", chats);
-            return ResponseEntity.ok(response);
-            
+            List<ChatResponseDto> chatDTOs = chats.stream()
+                    .map(chat -> convertToChatDto(chat, userId))
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(new ApiResponse<>(true, "User chats retrieved", chatDTOs));
         } catch (Exception e) {
-            ApiResponse<List<Chat>> response = new ApiResponse<>(false, "Failed to retrieve user chats", null);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Failed to retrieve user chats: " + e.getMessage(), null));
         }
     }
-    
-    /**
-     * Get unread message count for user
-     */
+
     @GetMapping("/user/{userId}/unread-count")
     public ResponseEntity<ApiResponse<Long>> getUnreadMessageCount(@PathVariable Long userId) {
         try {
             Long count = chatService.getUnreadMessageCount(userId);
-            
-            ApiResponse<Long> response = new ApiResponse<>(true, "Unread count retrieved", count);
-            return ResponseEntity.ok(response);
-            
+            return ResponseEntity.ok(new ApiResponse<>(true, "Unread count retrieved", count));
         } catch (Exception e) {
-            ApiResponse<Long> response = new ApiResponse<>(false, "Failed to get unread count", null);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Failed to get unread count: " + e.getMessage(), null));
         }
     }
-    
-    /**
-     * Upload media files to chat (images, documents, etc.)
-     */
+
     @PostMapping("/{chatId}/media")
-    public ResponseEntity<ApiResponse<Message>> uploadChatMedia(
+    public ResponseEntity<ApiResponse<MessageResponseDto>> uploadChatMedia(
             @PathVariable Long chatId,
-            @RequestParam("file") org.springframework.web.multipart.MultipartFile file,
+            @RequestParam("file") MultipartFile file,
             @RequestParam Long senderId,
             @RequestParam(required = false) String caption) {
         try {
-            // Validate file
-            if (file.isEmpty()) {
-                ApiResponse<Message> response = new ApiResponse<>(false, "No file provided", null);
-                return ResponseEntity.badRequest().body(response);
+            if (file.isEmpty() || file.getSize() > 10 * 1024 * 1024) { // 10MB limit
+                return ResponseEntity.badRequest().body(new ApiResponse<>(false, "File is empty or too large (max 10MB)", null));
             }
-            
-            // Check file size (limit to 10MB)
-            if (file.getSize() > 10 * 1024 * 1024) {
-                ApiResponse<Message> response = new ApiResponse<>(false, "File too large (max 10MB)", null);
-                return ResponseEntity.badRequest().body(response);
-            }
-            
-            // Determine message type based on file type
+
             String contentType = file.getContentType();
             Message.MessageType messageType = Message.MessageType.FILE;
-            
-            if (contentType != null) {
-                if (contentType.startsWith("image/")) {
-                    messageType = Message.MessageType.IMAGE;
-                } 
-                // For now, we'll use FILE for videos and audio until we add those types
-                // else if (contentType.startsWith("video/")) {
-                //     messageType = Message.MessageType.VIDEO;
-                // } else if (contentType.startsWith("audio/")) {
-                //     messageType = Message.MessageType.AUDIO;
-                // }
+            if (contentType != null && contentType.startsWith("image/")) {
+                messageType = Message.MessageType.IMAGE;
             }
-            
-            // TODO: Implement actual file storage (AWS S3, local storage, etc.)
-            // For now, we'll create a placeholder URL
+
+            // Placeholder for file storage logic
             String fileName = file.getOriginalFilename();
             String fileUrl = "/uploads/chat/" + chatId + "/" + System.currentTimeMillis() + "_" + fileName;
-            
-            // Create message content with file info
-            String messageContent = caption != null && !caption.trim().isEmpty() ? caption : fileName;
-            
-            // Send message with attachment
+            String messageContent = (caption != null && !caption.trim().isEmpty() ? caption : fileName) + "::" + fileUrl;
+
             Message message = chatService.sendMessage(chatId, senderId, messageContent, messageType);
-            
-            // Add attachment URL
-            message.addAttachment(fileUrl);
-            
-            // TODO: Save the actual file to storage here
-            // fileStorageService.saveFile(file, fileUrl);
-            
-            ApiResponse<Message> response = new ApiResponse<>(true, "Media uploaded successfully", message);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-            
+            MessageResponseDto messageDto = convertToMessageDto(message);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "Media uploaded successfully", messageDto));
         } catch (IllegalArgumentException e) {
-            ApiResponse<Message> response = new ApiResponse<>(false, e.getMessage(), null);
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
         } catch (Exception e) {
-            ApiResponse<Message> response = new ApiResponse<>(false, "Failed to upload media", null);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Failed to upload media: " + e.getMessage(), null));
         }
     }
-    
-    /**
-     * Send system message
-     */
+
     @PostMapping("/{chatId}/system-message")
-    public ResponseEntity<ApiResponse<Message>> sendSystemMessage(
-            @PathVariable Long chatId,
-            @RequestParam String content) {
+    public ResponseEntity<ApiResponse<MessageResponseDto>> sendSystemMessage(@PathVariable Long chatId, @RequestParam String content) {
         try {
             Message message = chatService.sendSystemMessage(chatId, content);
-            
-            ApiResponse<Message> response = new ApiResponse<>(true, "System message sent", message);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-            
+            MessageResponseDto messageDto = convertToMessageDto(message);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(true, "System message sent", messageDto));
         } catch (IllegalArgumentException e) {
-            ApiResponse<Message> response = new ApiResponse<>(false, e.getMessage(), null);
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
         } catch (Exception e) {
-            ApiResponse<Message> response = new ApiResponse<>(false, "Failed to send system message", null);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Failed to send system message: " + e.getMessage(), null));
         }
     }
 }

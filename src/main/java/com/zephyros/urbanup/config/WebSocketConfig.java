@@ -1,5 +1,6 @@
 package com.zephyros.urbanup.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -16,8 +17,6 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 import com.zephyros.urbanup.security.JwtUtil;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * WebSocket configuration for real-time chat messaging
