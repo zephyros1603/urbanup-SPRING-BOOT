@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UrbanUp WebSocket Chat Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .log { background: #f5f5f5; height: 200px; overflow-y: scroll; padding: 10px; border: 1px solid #ccc; margin-top: 10px; }
+        button { padding: 8px 15px; margin: 5px; }
+        input, textarea { width: 300px; padding: 5px; margin: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 UrbanUp WebSocket Chat Test</h1>
+        
+        <div class="section">
+            <h3>1. Connection Settings</h3>
+            <label>WebSocket URL:</label><br>
+            <input type="text" id="wsUrl" value="http://localhost:8080/ws" style="width: 400px;"><br>
+            
+            <label>JWT Token:</label><br>
+            <input type="text" id="jwtToken" placeholder="Bearer eyJhbGciOiJIUzI1NiJ9..." style="width: 400px;"><br>
+            
+            <label>Chat ID:</label><br>
+            <input type="text" id="chatId" value="1"><br>
+            
+            <button onclick="connect()">🔌 Connect</button>
+            <button onclick="disconnect()">❌ Disconnect</button>
+            <span id="connectionStatus">Disconnected</span>
+        </div>
+
+        <div class="section">
+            <h3>2. Message Testing</h3>
+            <label>Sender ID:</label><br>
+            <input type="text" id="senderId" value="1"><br>
+            
+            <label>Message Content:</label><br>
+            <textarea id="messageContent" placeholder="Hello! This is a test message..."></textarea><br>
+            
+            <button onclick="sendMessage()">📤 Send Message</button>
+            <button onclick="sendTypingIndicator()">⌨️ Send Typing</button>
+            <button onclick="joinChat()">👋 Join Chat</button>
+            <button onclick="leaveChat()">👋 Leave Chat</button>
+        </div>
+
+        <div class="section">
+            <h3>3. Activity Log</h3>
+            <button onclick="clearLog()">🧹 Clear Log</button>
+            <div id="log" class="log"></div>
+        </div>
+    </div>
+
+    <script>
+        let stompClient = null;
+        let connected = false;
+
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type;
+            logDiv.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function updateConnectionStatus(status, isConnected) {
+            document.getElementById('connectionStatus').textContent = status;
+            document.getElementById('connectionStatus').className = isConnected ? 'success' : 'error';
+            connected = isConnected;
+        }
+
+        function connect() {
+            const wsUrl = document.getElementById('wsUrl').value;
+            const token = document.getElementById('jwtToken').value;
+            
+            if (!token) {
+                log('❌ Please enter a JWT token first', 'error');
+                return;
+            }
+
+            log('🔌 Attempting to connect to WebSocket...', 'info');
+            
+            const socket = new SockJS(wsUrl);
+            stompClient = Stomp.over(socket);
+            
+            // Set headers for authentication
+            const headers = {
+                'Authorization': token
+            };
+
+            stompClient.connect(headers, function (frame) {
+                log('✅ Connected to WebSocket successfully!', 'success');
+                log('📝 Frame: ' + frame, 'info');
+                updateConnectionStatus('Connected', true);
+                
+                // Subscribe to chat messages
+                const chatId = document.getElementById('chatId').value;
+                stompClient.subscribe('/topic/chat/' + chatId, function (message) {
+                    log('📨 Received message: ' + message.body, 'success');
+                });
+                
+                // Subscribe to presence updates
+                stompClient.subscribe('/topic/chat/' + chatId + '/presence', function (message) {
+                    log('👥 Presence update: ' + message.body, 'info');
+                });
+                
+                log('✅ Subscribed to chat topics', 'success');
+                
+            }, function (error) {
+                log('❌ Connection failed: ' + error, 'error');
+                updateConnectionStatus('Connection Failed', false);
+            });
+        }
+
+        function disconnect() {
+            if (stompClient !== null && connected) {
+                stompClient.disconnect();
+                log('👋 Disconnected from WebSocket', 'info');
+                updateConnectionStatus('Disconnected', false);
+            }
+        }
+
+        function sendMessage() {
+            if (!connected) {
+                log('❌ Not connected to WebSocket', 'error');
+                return;
+            }
+            
+            const chatId = document.getElementById('chatId').value;
+            const senderId = document.getElementById('senderId').value;
+            const content = document.getElementById('messageContent').value;
+            
+            if (!content.trim()) {
+                log('❌ Please enter a message', 'error');
+                return;
+            }
+            
+            const message = {
+                senderId: parseInt(senderId),
+                content: content,
+                messageType: 'TEXT'
+            };
+            
+            stompClient.send('/app/chat/' + chatId + '/send', {}, JSON.stringify(message));
+            log('📤 Sent message: ' + content, 'info');
+            
+            // Clear the message input
+            document.getElementById('messageContent').value = '';
+        }
+
+        function sendTypingIndicator() {
+            if (!connected) {
+                log('❌ Not connected to WebSocket', 'error');
+                return;
+            }
+            
+            const chatId = document.getElementById('chatId').value;
+            const senderId = document.getElementById('senderId').value;
+            
+            const typingStatus = {
+                userId: parseInt(senderId),
+                isTyping: true
+            };
+            
+            stompClient.send('/app/chat/' + chatId + '/typing', {}, JSON.stringify(typingStatus));
+            log('⌨️ Sent typing indicator', 'info');
+        }
+
+        function joinChat() {
+            if (!connected) {
+                log('❌ Not connected to WebSocket', 'error');
+                return;
+            }
+            
+            const chatId = document.getElementById('chatId').value;
+            const senderId = document.getElementById('senderId').value;
+            
+            const presenceStatus = {
+                userId: parseInt(senderId),
+                status: 'ONLINE'
+            };
+            
+            stompClient.send('/app/chat/' + chatId + '/join', {}, JSON.stringify(presenceStatus));
+            log('👋 Joined chat', 'info');
+        }
+
+        function leaveChat() {
+            if (!connected) {
+                log('❌ Not connected to WebSocket', 'error');
+                return;
+            }
+            
+            const chatId = document.getElementById('chatId').value;
+            const senderId = document.getElementById('senderId').value;
+            
+            const presenceStatus = {
+                userId: parseInt(senderId),
+                status: 'OFFLINE'
+            };
+            
+            stompClient.send('/app/chat/' + chatId + '/leave', {}, JSON.stringify(presenceStatus));
+            log('👋 Left chat', 'info');
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        // Auto-populate token from a sample (you'll need to replace this with a real token)
+        window.onload = function() {
+            log('🎯 WebSocket Chat Tester Loaded', 'success');
+            log('📋 Instructions:', 'info');
+            log('1. First register/login via API to get a JWT token', 'info');
+            log('2. Copy the JWT token (including "Bearer " prefix) into the token field', 'info');
+            log('3. Click Connect to establish WebSocket connection', 'info');
+            log('4. Use the message functions to test real-time chat', 'info');
+        };
+    </script>
+</body>
+</html>

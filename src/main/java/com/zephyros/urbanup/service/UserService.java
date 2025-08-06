@@ -405,4 +405,18 @@ public class UserService {
     public Double getAverageUserRating() {
         return userRepository.getAverageUserRating();
     }
+    
+    /**
+     * Check if the authenticated user matches the provided user ID
+     */
+    public boolean isCurrentUser(Long userId, org.springframework.security.core.Authentication authentication) {
+        if (authentication == null || authentication.getName() == null) {
+            return false;
+        }
+        
+        String email = authentication.getName();
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        
+        return userOpt.map(user -> user.getId().equals(userId)).orElse(false);
+    }
 }

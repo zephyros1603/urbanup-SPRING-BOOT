@@ -202,6 +202,73 @@ public class ChatController {
     }
     
     /**
+     * Upload media files to chat (images, documents, etc.)
+     */
+    @PostMapping("/{chatId}/media")
+    public ResponseEntity<ApiResponse<Message>> uploadChatMedia(
+            @PathVariable Long chatId,
+            @RequestParam("file") org.springframework.web.multipart.MultipartFile file,
+            @RequestParam Long senderId,
+            @RequestParam(required = false) String caption) {
+        try {
+            // Validate file
+            if (file.isEmpty()) {
+                ApiResponse<Message> response = new ApiResponse<>(false, "No file provided", null);
+                return ResponseEntity.badRequest().body(response);
+            }
+            
+            // Check file size (limit to 10MB)
+            if (file.getSize() > 10 * 1024 * 1024) {
+                ApiResponse<Message> response = new ApiResponse<>(false, "File too large (max 10MB)", null);
+                return ResponseEntity.badRequest().body(response);
+            }
+            
+            // Determine message type based on file type
+            String contentType = file.getContentType();
+            Message.MessageType messageType = Message.MessageType.FILE;
+            
+            if (contentType != null) {
+                if (contentType.startsWith("image/")) {
+                    messageType = Message.MessageType.IMAGE;
+                } 
+                // For now, we'll use FILE for videos and audio until we add those types
+                // else if (contentType.startsWith("video/")) {
+                //     messageType = Message.MessageType.VIDEO;
+                // } else if (contentType.startsWith("audio/")) {
+                //     messageType = Message.MessageType.AUDIO;
+                // }
+            }
+            
+            // TODO: Implement actual file storage (AWS S3, local storage, etc.)
+            // For now, we'll create a placeholder URL
+            String fileName = file.getOriginalFilename();
+            String fileUrl = "/uploads/chat/" + chatId + "/" + System.currentTimeMillis() + "_" + fileName;
+            
+            // Create message content with file info
+            String messageContent = caption != null && !caption.trim().isEmpty() ? caption : fileName;
+            
+            // Send message with attachment
+            Message message = chatService.sendMessage(chatId, senderId, messageContent, messageType);
+            
+            // Add attachment URL
+            message.addAttachment(fileUrl);
+            
+            // TODO: Save the actual file to storage here
+            // fileStorageService.saveFile(file, fileUrl);
+            
+            ApiResponse<Message> response = new ApiResponse<>(true, "Media uploaded successfully", message);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            
+        } catch (IllegalArgumentException e) {
+            ApiResponse<Message> response = new ApiResponse<>(false, e.getMessage(), null);
+            return ResponseEntity.badRequest().body(response);
+        } catch (Exception e) {
+            ApiResponse<Message> response = new ApiResponse<>(false, "Failed to upload media", null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+    
+    /**
      * Send system message
      */
     @PostMapping("/{chatId}/system-message")

@@ -46,6 +46,9 @@ public class ChatService {
         // Create new chat
         Chat chat = new Chat();
         chat.setTask(task);
+        chat.setPoster(task.getPoster());  // Set the task poster
+        chat.setFulfiller(participant);    // Set the participant as fulfiller
+        chat.setIsActive(true);
         chat.setCreatedAt(LocalDateTime.now());
         chat.setUpdatedAt(LocalDateTime.now());
         

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanUp - Real-time Chat Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .connected { background-color: #d4edda; color: #155724; }
+        .disconnected { background-color: #f8d7da; color: #721c24; }
+        .warning { background-color: #fff3cd; color: #856404; }
+        input, button, select {
+            padding: 8px 12px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: white;
+            border-radius: 5px;
+        }
+        .message {
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 5px;
+            background-color: #e9ecef;
+        }
+        .own-message {
+            background-color: #007bff;
+            color: white;
+            text-align: right;
+        }
+        .system-message {
+            background-color: #ffc107;
+            color: #212529;
+            font-style: italic;
+            text-align: center;
+        }
+        .typing-indicator {
+            font-style: italic;
+            color: #6c757d;
+            font-size: 12px;
+        }
+        .flex {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .log {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            height: 150px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏙️ UrbanUp - Real-time Chat Test</h1>
+            <p>Test WebSocket connectivity and real-time messaging functionality</p>
+        </div>
+
+        <!-- Connection Section -->
+        <div class="section">
+            <h3>🔗 Connection</h3>
+            <div class="flex">
+                <input type="text" id="serverUrl" placeholder="Server URL" value="http://localhost:8080/api">
+                <input type="text" id="authToken" placeholder="JWT Token" style="width: 300px;">
+                <button onclick="connect()">Connect</button>
+                <button onclick="disconnect()">Disconnect</button>
+            </div>
+            <div id="connectionStatus" class="status disconnected">Disconnected</div>
+        </div>
+
+        <!-- Authentication Section -->
+        <div class="section">
+            <h3>🔐 Quick Login</h3>
+            <div class="flex">
+                <input type="email" id="loginEmail" placeholder="Email" value="john.doe@example.com">
+                <input type="password" id="loginPassword" placeholder="Password" value="password123">
+                <button onclick="quickLogin()">Login</button>
+            </div>
+            <div id="authStatus" class="status warning">Not authenticated</div>
+        </div>
+
+        <!-- Chat Setup Section -->
+        <div class="section">
+            <h3>💬 Chat Setup</h3>
+            <div class="flex">
+                <input type="number" id="chatId" placeholder="Chat ID" value="1">
+                <button onclick="subscribeToChat()">Subscribe to Chat</button>
+                <button onclick="createTestChat()">Create Test Chat</button>
+            </div>
+            <div id="subscriptionStatus" class="status warning">No subscriptions</div>
+        </div>
+
+        <!-- Messaging Section -->
+        <div class="section">
+            <h3>📨 Send Messages</h3>
+            <div class="messages" id="messages"></div>
+            <div id="typingIndicator" class="typing-indicator"></div>
+            <div class="flex">
+                <input type="text" id="messageInput" placeholder="Type a message..." style="flex: 1;">
+                <select id="messageType">
+                    <option value="TEXT">Text</option>
+                    <option value="IMAGE">Image</option>
+                    <option value="FILE">File</option>
+                    <option value="SYSTEM">System</option>
+                </select>
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="section">
+            <h3>🎛️ Controls</h3>
+            <div class="flex">
+                <button onclick="sendTypingIndicator(true)">Start Typing</button>
+                <button onclick="sendTypingIndicator(false)">Stop Typing</button>
+                <button onclick="updatePresence('online')">Go Online</button>
+                <button onclick="updatePresence('offline')">Go Offline</button>
+                <button onclick="markAsRead()">Mark as Read</button>
+            </div>
+        </div>
+
+        <!-- Log Section -->
+        <div class="section">
+            <h3>📋 Activity Log</h3>
+            <button onclick="clearLog()">Clear Log</button>
+            <div id="log" class="log"></div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let stompClient = null;
+        let currentChatId = null;
+        let currentUser = null;
+        let isConnected = false;
+
+        // Utility functions
+        function log(message) {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function updateConnectionStatus(connected) {
+            isConnected = connected;
+            const statusElement = document.getElementById('connectionStatus');
+            if (connected) {
+                statusElement.textContent = 'Connected';
+                statusElement.className = 'status connected';
+            } else {
+                statusElement.textContent = 'Disconnected';
+                statusElement.className = 'status disconnected';
+            }
+        }
+
+        function addMessage(message, isOwn = false, isSystem = false) {
+            const messagesElement = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            
+            if (isSystem) {
+                messageDiv.className += ' system-message';
+                messageDiv.textContent = message;
+            } else {
+                if (isOwn) {
+                    messageDiv.className += ' own-message';
+                }
+                messageDiv.innerHTML = `
+                    <strong>${message.senderName || 'Unknown'}:</strong>
+                    <span>${message.content}</span>
+                    <small style="opacity: 0.7; font-size: 11px;">
+                        ${new Date(message.createdAt || Date.now()).toLocaleTimeString()}
+                    </small>
+                `;
+            }
+            
+            messagesElement.appendChild(messageDiv);
+            messagesElement.scrollTop = messagesElement.scrollHeight;
+        }
+
+        // Authentication
+        async function quickLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const serverUrl = document.getElementById('serverUrl').value;
+
+            try {
+                const response = await fetch(`${serverUrl}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('authToken').value = data.data.token;
+                    currentUser = data.data.user;
+                    document.getElementById('authStatus').textContent = `Authenticated as ${email}`;
+                    document.getElementById('authStatus').className = 'status connected';
+                    log(`✅ Login successful for ${email}`);
+                } else {
+                    log(`❌ Login failed: ${data.message}`);
+                    document.getElementById('authStatus').textContent = 'Authentication failed';
+                    document.getElementById('authStatus').className = 'status disconnected';
+                }
+            } catch (error) {
+                log(`❌ Login error: ${error.message}`);
+                document.getElementById('authStatus').textContent = 'Authentication error';
+                document.getElementById('authStatus').className = 'status disconnected';
+            }
+        }
+
+        // WebSocket connection
+        function connect() {
+            const serverUrl = document.getElementById('serverUrl').value;
+            const token = document.getElementById('authToken').value;
+
+            if (!token) {
+                log('❌ JWT token required for connection');
+                return;
+            }
+
+            log('🔗 Connecting to WebSocket...');
+            
+            const socket = new SockJS(`${serverUrl}/ws`);
+            stompClient = StompJs.Stomp.over(socket);
+
+            stompClient.connect(
+                { Authorization: `Bearer ${token}` },
+                function(frame) {
+                    log('✅ Connected to WebSocket');
+                    updateConnectionStatus(true);
+                    console.log('Connected: ' + frame);
+                },
+                function(error) {
+                    log('❌ Connection failed: ' + error);
+                    updateConnectionStatus(false);
+                    console.error('Connection error: ' + error);
+                }
+            );
+        }
+
+        function disconnect() {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+                log('🔌 Disconnected from WebSocket');
+            }
+            updateConnectionStatus(false);
+        }
+
+        // Chat subscription
+        function subscribeToChat() {
+            const chatId = document.getElementById('chatId').value;
+            
+            if (!stompClient || !stompClient.connected) {
+                log('❌ Not connected to WebSocket');
+                return;
+            }
+
+            if (!chatId) {
+                log('❌ Chat ID required');
+                return;
+            }
+
+            currentChatId = chatId;
+
+            // Subscribe to chat messages
+            stompClient.subscribe(`/topic/chat/${chatId}`, function(message) {
+                const messageData = JSON.parse(message.body);
+                log(`📨 Received message: ${messageData.content}`);
+                addMessage(messageData, messageData.senderId === currentUser?.id);
+            });
+
+            // Subscribe to typing indicators
+            stompClient.subscribe(`/topic/chat/${chatId}/typing`, function(message) {
+                const typingData = JSON.parse(message.body);
+                const indicator = document.getElementById('typingIndicator');
+                
+                if (typingData.userId !== currentUser?.id) {
+                    if (typingData.isTyping) {
+                        indicator.textContent = 'Someone is typing...';
+                        log('⌨️ User is typing');
+                    } else {
+                        indicator.textContent = '';
+                        log('⌨️ User stopped typing');
+                    }
+                }
+            });
+
+            // Subscribe to presence updates
+            stompClient.subscribe(`/topic/chat/${chatId}/presence`, function(message) {
+                const presenceData = JSON.parse(message.body);
+                log(`👤 User ${presenceData.userId} is ${presenceData.status}`);
+            });
+
+            // Subscribe to read status
+            stompClient.subscribe(`/topic/chat/${chatId}/read`, function(message) {
+                const readData = JSON.parse(message.body);
+                log(`👁️ User ${readData.userId} read ${readData.messageCount} messages`);
+            });
+
+            document.getElementById('subscriptionStatus').textContent = `Subscribed to Chat ${chatId}`;
+            document.getElementById('subscriptionStatus').className = 'status connected';
+            log(`✅ Subscribed to chat ${chatId}`);
+        }
+
+        // Create test chat
+        async function createTestChat() {
+            const serverUrl = document.getElementById('serverUrl').value;
+            const token = document.getElementById('authToken').value;
+
+            try {
+                // First create a test task
+                const taskResponse = await fetch(`${serverUrl}/api/tasks`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        title: 'Test Task for Chat',
+                        description: 'This is a test task to enable chat functionality',
+                        category: 'HOME_SERVICES',
+                        location: '123 Test Street',
+                        latitude: 40.7128,
+                        longitude: -74.0060,
+                        maxBudget: 100.0,
+                        preferredDate: '2024-12-31',
+                        isUrgent: false
+                    })
+                });
+
+                const taskData = await taskResponse.json();
+                
+                if (taskData.success) {
+                    const taskId = taskData.data.id;
+                    log(`✅ Test task created: ${taskId}`);
+
+                    // Now create chat (assuming fulfillerId = 2 for test)
+                    const chatResponse = await fetch(`${serverUrl}/api/realtime-chat/create/${taskId}?fulfillerId=2`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    const chatData = await chatResponse.json();
+                    
+                    if (chatData.success) {
+                        const chatId = chatData.data.id;
+                        document.getElementById('chatId').value = chatId;
+                        log(`✅ Test chat created: ${chatId}`);
+                        subscribeToChat();
+                    } else {
+                        log(`❌ Failed to create chat: ${chatData.message}`);
+                    }
+                } else {
+                    log(`❌ Failed to create task: ${taskData.message}`);
+                }
+            } catch (error) {
+                log(`❌ Error creating test chat: ${error.message}`);
+            }
+        }
+
+        // Send message
+        function sendMessage() {
+            if (!stompClient || !stompClient.connected) {
+                log('❌ Not connected');
+                return;
+            }
+
+            if (!currentChatId) {
+                log('❌ No chat selected');
+                return;
+            }
+
+            const messageInput = document.getElementById('messageInput');
+            const messageType = document.getElementById('messageType').value;
+            const content = messageInput.value.trim();
+
+            if (!content) {
+                log('❌ Message cannot be empty');
+                return;
+            }
+
+            const message = {
+                content: content,
+                messageType: messageType
+            };
+
+            stompClient.send(`/app/chat/${currentChatId}/send`, {}, JSON.stringify(message));
+            log(`📤 Sent message: ${content}`);
+            
+            // Add to UI immediately (optimistic update)
+            addMessage({
+                content: content,
+                senderName: currentUser?.firstName + ' ' + currentUser?.lastName || 'You',
+                createdAt: new Date().toISOString()
+            }, true);
+
+            messageInput.value = '';
+        }
+
+        // Send typing indicator
+        function sendTypingIndicator(isTyping) {
+            if (!stompClient || !stompClient.connected || !currentChatId) {
+                return;
+            }
+
+            stompClient.send(`/app/chat/${currentChatId}/typing`, {}, JSON.stringify({
+                isTyping: isTyping
+            }));
+            
+            log(`⌨️ Typing indicator: ${isTyping ? 'started' : 'stopped'}`);
+        }
+
+        // Update presence
+        function updatePresence(status) {
+            if (!stompClient || !stompClient.connected || !currentChatId) {
+                return;
+            }
+
+            stompClient.send(`/app/chat/${currentChatId}/presence`, {}, JSON.stringify({
+                status: status
+            }));
+            
+            log(`👤 Presence updated: ${status}`);
+        }
+
+        // Mark as read
+        function markAsRead() {
+            if (!stompClient || !stompClient.connected || !currentChatId) {
+                return;
+            }
+
+            stompClient.send(`/app/chat/${currentChatId}/read`, {}, JSON.stringify({}));
+            log(`👁️ Marked messages as read`);
+        }
+
+        // Clear log
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        // Auto-typing for message input
+        document.getElementById('messageInput').addEventListener('input', function() {
+            sendTypingIndicator(true);
+            
+            clearTimeout(this.typingTimeout);
+            this.typingTimeout = setTimeout(() => {
+                sendTypingIndicator(false);
+            }, 1000);
+        });
+
+        // Send message on Enter
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Initial log
+        log('🏙️ UrbanUp Real-time Chat Test initialized');
+        log('📋 Instructions:');
+        log('1. Enter your JWT token or use Quick Login');
+        log('2. Click Connect to establish WebSocket connection');
+        log('3. Enter Chat ID and Subscribe to Chat');
+        log('4. Start sending messages and testing features!');
+    </script>
+</body>
+</html>

@@ -75,6 +75,7 @@ public class Notification {
     @CollectionTable(name = "notification_data", joinColumns = @JoinColumn(name = "notification_id"))
     @MapKeyColumn(name = "data_key")
     @Column(name = "data_value")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Map<String, String> additionalData = new HashMap<>();
     
     @Column(name = "deep_link_url")
