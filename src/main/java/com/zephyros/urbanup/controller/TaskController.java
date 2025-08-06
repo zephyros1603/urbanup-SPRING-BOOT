@@ -23,6 +23,8 @@ import com.zephyros.urbanup.model.TaskApplication;
 import com.zephyros.urbanup.repository.TaskRepository;
 import com.zephyros.urbanup.service.TaskService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -37,18 +39,24 @@ public class TaskController {
      * Create a new task
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Task>> createTask(@RequestBody TaskCreateDto taskDto) {
+    public ResponseEntity<ApiResponse<Task>> createTask(@Valid @RequestBody TaskCreateDto taskDto) {
         try {
             Task task = taskService.createTask(
                 taskDto.getPosterId(),
                 taskDto.getTitle(),
                 taskDto.getDescription(),
                 taskDto.getPrice(),
-                Task.PricingType.FIXED, // Default pricing type
+                taskDto.getPricingType() != null ? taskDto.getPricingType() : Task.PricingType.FIXED,
                 taskDto.getLocation(),
+                taskDto.getCityArea(),
+                taskDto.getFullAddress(),
                 null, // latitude
                 null, // longitude
                 taskDto.getDeadline(),
+                taskDto.getEstimatedDurationHours(),
+                taskDto.getIsUrgent(),
+                taskDto.getSpecialRequirements(),
+                taskDto.getSkillsRequired(),
                 taskDto.getCategory()
             );
             
@@ -59,7 +67,7 @@ public class TaskController {
             ApiResponse<Task> response = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.badRequest().body(response);
         } catch (Exception e) {
-            ApiResponse<Task> response = new ApiResponse<>(false, "Task creation failed", null);
+            ApiResponse<Task> response = new ApiResponse<>(false, "Task creation failed: " + e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
@@ -91,7 +99,7 @@ public class TaskController {
     @PutMapping("/{taskId}")
     public ResponseEntity<ApiResponse<Task>> updateTask(
             @PathVariable Long taskId,
-            @RequestBody TaskCreateDto taskDto) {
+            @Valid @RequestBody TaskCreateDto taskDto) {
         try {
             Task updatedTask = taskService.updateTask(
                 taskId,
@@ -114,7 +122,7 @@ public class TaskController {
             ApiResponse<Task> response = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.badRequest().body(response);
         } catch (Exception e) {
-            ApiResponse<Task> response = new ApiResponse<>(false, "Task update failed", null);
+            ApiResponse<Task> response = new ApiResponse<>(false, "Task update failed: " + e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
@@ -123,25 +131,28 @@ public class TaskController {
      * Apply for a task
      */
     @PostMapping("/{taskId}/apply")
-    public ResponseEntity<ApiResponse<TaskApplication>> applyForTask(
+    public ResponseEntity<ApiResponse<String>> applyForTask(
             @PathVariable Long taskId,
-            @RequestBody TaskApplicationDto applicationDto) {
+            @Valid @RequestBody TaskApplicationDto applicationDto) {
         try {
             TaskApplication application = taskService.applyForTask(
                 taskId,
                 applicationDto.getFulfillerId(),
                 applicationDto.getMessage(),
-                applicationDto.getProposedPrice().doubleValue()
+                applicationDto.getProposedPrice().doubleValue(),
+                applicationDto.getEstimatedCompletionTime()
             );
             
-            ApiResponse<TaskApplication> response = new ApiResponse<>(true, "Application submitted successfully", application);
+            // Return simple success message instead of complex object to avoid lazy loading issues
+            String successMessage = "Application submitted successfully. Application ID: " + application.getId();
+            ApiResponse<String> response = new ApiResponse<>(true, successMessage, null);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
             
         } catch (IllegalArgumentException e) {
-            ApiResponse<TaskApplication> response = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<String> response = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.badRequest().body(response);
         } catch (Exception e) {
-            ApiResponse<TaskApplication> response = new ApiResponse<>(false, "Application failed", null);
+            ApiResponse<String> response = new ApiResponse<>(false, "Application failed: " + e.getMessage(), null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }

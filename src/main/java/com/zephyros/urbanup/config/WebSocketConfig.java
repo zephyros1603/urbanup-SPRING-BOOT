@@ -51,6 +51,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // Additional endpoint without SockJS for native WebSocket clients
         registry.addEndpoint("/ws-native")
                 .setAllowedOriginPatterns("*");
+                
+        // Add endpoint for token-based authentication via query parameter
+        registry.addEndpoint("/ws-auth")
+                .setAllowedOriginPatterns("*")
+                .withSockJS();
     }
     
     @Override
@@ -61,8 +66,17 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
                 
                 if (accessor != null && StompCommand.CONNECT.equals(accessor.getCommand())) {
-                    // Extract JWT token from headers
+                    // Try to extract JWT token from headers first
                     String authToken = accessor.getFirstNativeHeader("Authorization");
+                    
+                    // If not in headers, try to get from query parameters (for SockJS compatibility)
+                    if (authToken == null || !authToken.startsWith("Bearer ")) {
+                        authToken = accessor.getFirstNativeHeader("token");
+                        if (authToken != null && !authToken.startsWith("Bearer ")) {
+                            authToken = "Bearer " + authToken;
+                        }
+                    }
+                    
                     if (authToken != null && authToken.startsWith("Bearer ")) {
                         String token = authToken.substring(7);
                         

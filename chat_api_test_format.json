@@ -1,0 +1,162 @@
+{
+  "chat_api_endpoints_and_formats": {
+    "overview": "Chat API endpoints require specific JSON formats and have WebSocket support for real-time messaging",
+    
+    "rest_endpoints": {
+      "create_chat": {
+        "method": "POST",
+        "endpoint": "/api/chats",
+        "headers": {
+          "Authorization": "Bearer <JWT_TOKEN>",
+          "Content-Type": "application/json"
+        },
+        "body_format": {
+          "taskId": 17,
+          "posterId": 42,
+          "fulfillerId": 43
+        },
+        "description": "Creates a new chat between poster and fulfiller for a specific task"
+      },
+      
+      "send_message": {
+        "method": "POST", 
+        "endpoint": "/api/chats/{chatId}/messages",
+        "headers": {
+          "Authorization": "Bearer <JWT_TOKEN>",
+          "Content-Type": "application/json"
+        },
+        "body_format": {
+          "senderId": 42,
+          "content": "Hello! I am interested in this task.",
+          "messageType": "TEXT"
+        },
+        "message_types": ["TEXT", "IMAGE", "FILE", "LOCATION", "SYSTEM", "STATUS_UPDATE"]
+      },
+      
+      "get_messages": {
+        "method": "GET",
+        "endpoint": "/api/chats/{chatId}/messages?userId={userId}&page=0&limit=50",
+        "headers": {
+          "Authorization": "Bearer <JWT_TOKEN>"
+        },
+        "description": "Retrieves messages for a chat with pagination"
+      },
+      
+      "get_chat": {
+        "method": "GET", 
+        "endpoint": "/api/chats/{chatId}?userId={userId}",
+        "headers": {
+          "Authorization": "Bearer <JWT_TOKEN>"
+        },
+        "description": "Gets chat details, requires userId parameter for authorization"
+      }
+    },
+    
+    "realtime_endpoints": {
+      "create_chat": {
+        "method": "POST",
+        "endpoint": "/api/realtime-chat/create/{taskId}?fulfillerId={fulfillerId}",
+        "headers": {
+          "Authorization": "Bearer <JWT_TOKEN>"
+        },
+        "description": "Creates chat using realtime controller"
+      },
+      
+      "send_message": {
+        "method": "POST",
+        "endpoint": "/api/realtime-chat/{chatId}/send", 
+        "headers": {
+          "Authorization": "Bearer <JWT_TOKEN>",
+          "Content-Type": "application/json"
+        },
+        "body_format": {
+          "content": "Hello! I am interested in this task."
+        },
+        "description": "Sends message using realtime controller (simpler format)"
+      }
+    },
+    
+    "websocket_endpoints": {
+      "connection": {
+        "endpoint": "ws://localhost:8080/api/ws",
+        "protocol": "STOMP over WebSocket",
+        "headers": {
+          "Authorization": "Bearer <JWT_TOKEN>"
+        },
+        "description": "Main WebSocket endpoint with SockJS fallback"
+      },
+      
+      "native_connection": {
+        "endpoint": "ws://localhost:8080/api/ws-native", 
+        "protocol": "Native WebSocket",
+        "headers": {
+          "Authorization": "Bearer <JWT_TOKEN>"
+        },
+        "description": "Native WebSocket without SockJS"
+      },
+      
+      "message_destinations": {
+        "send_message": {
+          "destination": "/app/chat/{chatId}/send",
+          "payload_format": {
+            "content": "Hello from WebSocket!",
+            "messageType": "TEXT"
+          }
+        },
+        
+        "typing_indicator": {
+          "destination": "/app/chat/{chatId}/typing",
+          "payload_format": {
+            "isTyping": true
+          }
+        },
+        
+        "presence_update": {
+          "destination": "/app/chat/{chatId}/presence", 
+          "payload_format": {
+            "status": "online"
+          }
+        },
+        
+        "mark_read": {
+          "destination": "/app/chat/{chatId}/read",
+          "payload_format": {}
+        }
+      },
+      
+      "subscriptions": {
+        "chat_messages": "/topic/chat/{chatId}/messages",
+        "typing_indicators": "/topic/chat/{chatId}/typing", 
+        "presence_updates": "/topic/chat/{chatId}/presence",
+        "read_receipts": "/topic/chat/{chatId}/read"
+      }
+    },
+    
+    "current_issues": {
+      "lazy_loading": "Hibernate lazy loading proxy serialization causing 500 errors",
+      "authentication": "WebSocket endpoints require JWT token in Authorization header", 
+      "validation": "Message content cannot be empty, senderId is required for REST API"
+    },
+    
+    "test_data": {
+      "user1": {
+        "id": 42,
+        "email": "chatuser1@test.com", 
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQyLCJzdWIiOiJjaGF0dXNlcjFAdGVzdC5jb20iLCJpYXQiOjE3NTQ0OTU3NTEsImV4cCI6MTc1NDU4MjE1MX0.sAWRtc3zi4r1maaXVjSe77i1C64GKjcvkkDao2AFCdA"
+      },
+      "user2": {
+        "id": 43,
+        "email": "chatuser2@test.com",
+        "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQzLCJzdWIiOiJjaGF0dXNlcjJAdGVzdC5jb20iLCJpYXQiOjE3NTQ0OTU3NTIsImV4cCI6MTc1NDU4MjE1Mn0.lZRCtl5ziWjDfREuYgR8e5PCffvdpOxFkKi685H7-dE"
+      },
+      "task": {
+        "id": 17,
+        "title": "Chat Test Task"
+      },
+      "chat": {
+        "id": 9,
+        "status": "created_successfully"
+      }
+    }
+  }
+}

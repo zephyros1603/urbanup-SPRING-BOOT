@@ -17,15 +17,19 @@ import com.zephyros.urbanup.model.User;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
     
-    // Eager fetching for all tasks with user relationships
-    @Query("SELECT t FROM Task t LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller")
+    // Eager fetching for all tasks with user relationships and collections
+    @Query("SELECT DISTINCT t FROM Task t LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller")
     List<Task> findAllWithUsersEager();
     
+    // Eager fetching for single task by ID
+    @Query("SELECT DISTINCT t FROM Task t LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller WHERE t.id = :id")
+    Task findByIdWithUsersEager(@Param("id") Long id);
+    
     // Eager fetching versions for common queries
-    @Query("SELECT t FROM Task t LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller WHERE t.status = :status")
+    @Query("SELECT DISTINCT t FROM Task t LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller WHERE t.status = :status")
     List<Task> findAllByStatusEager(@Param("status") Task.TaskStatus status);
     
-    @Query("SELECT t FROM Task t LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller WHERE t.category = :category")
+    @Query("SELECT DISTINCT t FROM Task t LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller WHERE t.category = :category")
     List<Task> findAllByCategoryEager(@Param("category") Task.TaskCategory category);
     
     // Basic status queries

@@ -14,8 +14,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "task_applications")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TaskApplication {
     
     @Id
@@ -41,7 +44,7 @@ public class TaskApplication {
     private Double proposedPrice; // If applicant wants to negotiate price
     
     @Column(name = "estimated_completion_time")
-    private Integer estimatedCompletionTime; // In hours
+    private LocalDateTime estimatedCompletionTime; // When the applicant estimates completion
     
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -97,8 +100,8 @@ public class TaskApplication {
     public Double getProposedPrice() { return proposedPrice; }
     public void setProposedPrice(Double proposedPrice) { this.proposedPrice = proposedPrice; }
     
-    public Integer getEstimatedCompletionTime() { return estimatedCompletionTime; }
-    public void setEstimatedCompletionTime(Integer estimatedCompletionTime) { this.estimatedCompletionTime = estimatedCompletionTime; }
+    public LocalDateTime getEstimatedCompletionTime() { return estimatedCompletionTime; }
+    public void setEstimatedCompletionTime(LocalDateTime estimatedCompletionTime) { this.estimatedCompletionTime = estimatedCompletionTime; }
     
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

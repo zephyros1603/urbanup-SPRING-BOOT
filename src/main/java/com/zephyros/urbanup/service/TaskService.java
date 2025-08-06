@@ -39,8 +39,11 @@ public class TaskService {
      */
     public Task createTask(Long posterId, String title, String description, 
                           BigDecimal price, Task.PricingType pricingType, 
-                          String location, Double latitude, Double longitude,
-                          LocalDateTime deadline, Task.TaskCategory category) {
+                          String location, String cityArea, String fullAddress,
+                          Double latitude, Double longitude,
+                          LocalDateTime deadline, Integer estimatedDurationHours,
+                          Boolean isUrgent, String specialRequirements,
+                          List<String> skillsRequired, Task.TaskCategory category) {
         
         Optional<User> posterOpt = userRepository.findById(posterId);
         if (posterOpt.isEmpty()) {
@@ -62,9 +65,15 @@ public class TaskService {
         task.setPrice(price);
         task.setPricingType(pricingType);
         task.setLocation(location);
+        task.setCityArea(cityArea);
+        task.setFullAddress(fullAddress);
         task.setLatitude(latitude);
         task.setLongitude(longitude);
         task.setDeadline(deadline);
+        task.setEstimatedDurationHours(estimatedDurationHours);
+        task.setIsUrgent(isUrgent != null ? isUrgent : false);
+        task.setSpecialRequirements(specialRequirements);
+        task.setSkillsRequired(skillsRequired);
         task.setCategory(category);
         task.setStatus(Task.TaskStatus.OPEN);
         task.setCreatedAt(LocalDateTime.now());
@@ -159,7 +168,7 @@ public class TaskService {
     /**
      * Apply for a task
      */
-    public TaskApplication applyForTask(Long taskId, Long applicantId, String message, Double proposedPrice) {
+    public TaskApplication applyForTask(Long taskId, Long applicantId, String message, Double proposedPrice, LocalDateTime estimatedCompletionTime) {
         Optional<Task> taskOpt = taskRepository.findById(taskId);
         Optional<User> applicantOpt = userRepository.findById(applicantId);
         
@@ -196,6 +205,7 @@ public class TaskService {
         application.setApplicant(applicant);
         application.setMessage(message);
         application.setProposedPrice(proposedPrice);
+        application.setEstimatedCompletionTime(estimatedCompletionTime);
         application.setStatus(TaskApplication.ApplicationStatus.PENDING);
         application.setCreatedAt(LocalDateTime.now());
         
@@ -468,7 +478,8 @@ public class TaskService {
      */
     @Transactional(readOnly = true)
     public Optional<Task> getTaskById(Long taskId) {
-        return taskRepository.findById(taskId);
+        Task task = taskRepository.findByIdWithUsersEager(taskId);
+        return Optional.ofNullable(task);
     }
     
     /**

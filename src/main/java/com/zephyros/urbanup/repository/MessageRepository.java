@@ -26,6 +26,13 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     
     List<Message> findByChatIdOrderByCreatedAtAsc(Long chatId);
     
+    // Find messages by chat with eager loading
+    @Query("SELECT m FROM Message m LEFT JOIN FETCH m.sender LEFT JOIN FETCH m.chat c LEFT JOIN FETCH c.task t LEFT JOIN FETCH c.poster LEFT JOIN FETCH c.fulfiller WHERE m.chat = :chat ORDER BY m.createdAt ASC")
+    List<Message> findByChatWithEagerLoading(@Param("chat") Chat chat);
+    
+    @Query("SELECT m FROM Message m LEFT JOIN FETCH m.sender LEFT JOIN FETCH m.chat c LEFT JOIN FETCH c.task WHERE m.chat.id = :chatId ORDER BY m.createdAt ASC")
+    List<Message> findByChatIdWithEagerLoading(@Param("chatId") Long chatId);
+    
     // Find messages by sender
     List<Message> findBySenderOrderByCreatedAtDesc(User sender);
     

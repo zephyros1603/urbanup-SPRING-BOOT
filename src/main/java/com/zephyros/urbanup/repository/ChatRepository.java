@@ -21,6 +21,14 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     
     Optional<Chat> findByTaskId(Long taskId);
     
+    // Find chat by ID with eager loading
+    @Query("SELECT c FROM Chat c LEFT JOIN FETCH c.task t LEFT JOIN FETCH c.poster LEFT JOIN FETCH c.fulfiller LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller WHERE c.id = :chatId")
+    Optional<Chat> findByIdWithTaskAndUsers(@Param("chatId") Long chatId);
+    
+    // Find chats by user (either as poster or fulfiller) with eager loading
+    @Query("SELECT c FROM Chat c LEFT JOIN FETCH c.task t LEFT JOIN FETCH c.poster LEFT JOIN FETCH c.fulfiller LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller WHERE c.poster = :user OR c.fulfiller = :user ORDER BY c.updatedAt DESC")
+    List<Chat> findChatsByUserWithEagerLoading(@Param("user") User user);
+    
     // Find chats by user (either as poster or fulfiller)
     @Query("SELECT c FROM Chat c WHERE c.poster = :user OR c.fulfiller = :user ORDER BY c.updatedAt DESC")
     List<Chat> findChatsByUser(@Param("user") User user);

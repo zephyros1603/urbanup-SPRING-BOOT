@@ -127,6 +127,21 @@ public class Task {
     @Column(name = "special_instructions", columnDefinition = "TEXT")
     private String specialInstructions;
     
+    @Column(name = "special_requirements", columnDefinition = "TEXT")
+    private String specialRequirements;
+    
+    // Skills required for the task
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "task_skills_required", joinColumns = @JoinColumn(name = "task_id"))
+    @Column(name = "skill")
+    private List<String> skillsRequired = new ArrayList<>();
+    
+    @Column(name = "full_address", columnDefinition = "TEXT")
+    private String fullAddress;
+    
+    @Column(name = "city_area")
+    private String cityArea;
+    
     // Audit fields
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -279,6 +294,18 @@ public class Task {
     
     public String getSpecialInstructions() { return specialInstructions; }
     public void setSpecialInstructions(String specialInstructions) { this.specialInstructions = specialInstructions; }
+    
+    public String getSpecialRequirements() { return specialRequirements; }
+    public void setSpecialRequirements(String specialRequirements) { this.specialRequirements = specialRequirements; }
+    
+    public List<String> getSkillsRequired() { return skillsRequired; }
+    public void setSkillsRequired(List<String> skillsRequired) { this.skillsRequired = skillsRequired; }
+    
+    public String getFullAddress() { return fullAddress; }
+    public void setFullAddress(String fullAddress) { this.fullAddress = fullAddress; }
+    
+    public String getCityArea() { return cityArea; }
+    public void setCityArea(String cityArea) { this.cityArea = cityArea; }
     
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

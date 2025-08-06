@@ -100,7 +100,7 @@ public class ChatController {
      * Send a message in a chat
      */
     @PostMapping("/{chatId}/messages")
-    public ResponseEntity<ApiResponse<Message>> sendMessage(
+    public ResponseEntity<ApiResponse<String>> sendMessage(
             @PathVariable Long chatId,
             @RequestBody MessageSendDto messageDto) {
         try {
@@ -111,14 +111,14 @@ public class ChatController {
                 messageDto.getMessageType() != null ? messageDto.getMessageType() : Message.MessageType.TEXT
             );
             
-            ApiResponse<Message> response = new ApiResponse<>(true, "Message sent successfully", message);
+            ApiResponse<String> response = new ApiResponse<>(true, "Message sent successfully", "Message ID: " + message.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
             
         } catch (IllegalArgumentException e) {
-            ApiResponse<Message> response = new ApiResponse<>(false, e.getMessage(), null);
+            ApiResponse<String> response = new ApiResponse<>(false, e.getMessage(), null);
             return ResponseEntity.badRequest().body(response);
         } catch (Exception e) {
-            ApiResponse<Message> response = new ApiResponse<>(false, "Failed to send message", null);
+            ApiResponse<String> response = new ApiResponse<>(false, "Failed to send message", null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }

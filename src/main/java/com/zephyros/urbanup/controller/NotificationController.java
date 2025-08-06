@@ -21,7 +21,7 @@ import com.zephyros.urbanup.service.NotificationService;
 import com.zephyros.urbanup.service.UserService;
 
 @RestController
-@RequestMapping("/notifications")
+@RequestMapping("/api/notifications")
 public class NotificationController {
 
     @Autowired

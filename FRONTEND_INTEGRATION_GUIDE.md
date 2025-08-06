@@ -253,9 +253,24 @@ export const taskService = {
     return response.data;
   },
 
-  // Create new task
+  // Create new task with all form fields
   createTask: async (taskData) => {
-    const response = await apiClient.post('/tasks', taskData);
+    const response = await apiClient.post('/tasks', {
+      posterId: taskData.posterId,
+      title: taskData.title,
+      description: taskData.description,
+      category: taskData.category,
+      price: taskData.price,
+      pricingType: taskData.pricingType || 'FIXED',
+      location: taskData.location,
+      cityArea: taskData.cityArea,
+      fullAddress: taskData.fullAddress,
+      deadline: taskData.deadline,
+      estimatedDurationHours: taskData.estimatedDurationHours,
+      isUrgent: taskData.isUrgent || false,
+      specialRequirements: taskData.specialRequirements,
+      skillsRequired: taskData.skillsRequired || []
+    });
     return response.data;
   },
 
@@ -361,7 +376,293 @@ export const chatService = {
 };
 ```
 
-### src/components/tasks/TaskList.jsx
+### src/components/tasks/TaskCreationForm.jsx
+```javascript
+import React, { useState } from 'react';
+import { taskService } from '../../services/tasks';
+import { authService } from '../../services/auth';
+
+const TaskCreationForm = ({ onTaskCreated }) => {
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    category: 'PROFESSIONAL_TASKS',
+    price: '',
+    pricingType: 'FIXED',
+    location: '',
+    cityArea: '',
+    fullAddress: '',
+    deadline: '',
+    estimatedDurationHours: 1,
+    isUrgent: false,
+    specialRequirements: '',
+    skillsRequired: []
+  });
+  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [newSkill, setNewSkill] = useState('');
+
+  const currentUser = authService.getCurrentUser();
+
+  const taskCategories = [
+    { value: 'PERSONAL_ERRANDS', label: 'Personal Errands' },
+    { value: 'PROFESSIONAL_TASKS', label: 'Professional Tasks' },
+    { value: 'HOUSEHOLD_HELP', label: 'Household Help' },
+    { value: 'MICRO_GIGS', label: 'Micro Gigs' },
+    { value: 'DELIVERY', label: 'Delivery' },
+    { value: 'CLEANING', label: 'Cleaning' },
+    { value: 'REPAIR_MAINTENANCE', label: 'Repair & Maintenance' },
+    { value: 'SHOPPING', label: 'Shopping' },
+    { value: 'ADMINISTRATIVE', label: 'Administrative' },
+    { value: 'OTHER', label: 'Other' }
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const taskData = {
+        ...formData,
+        posterId: currentUser.id,
+        price: parseFloat(formData.price),
+        deadline: formData.deadline ? new Date(formData.deadline).toISOString() : null
+      };
+
+      const response = await taskService.createTask(taskData);
+      
+      if (response.success) {
+        onTaskCreated && onTaskCreated(response.data);
+        // Reset form
+        setFormData({
+          title: '',
+          description: '',
+          category: 'PROFESSIONAL_TASKS',
+          price: '',
+          pricingType: 'FIXED',
+          location: '',
+          cityArea: '',
+          fullAddress: '',
+          deadline: '',
+          estimatedDurationHours: 1,
+          isUrgent: false,
+          specialRequirements: '',
+          skillsRequired: []
+        });
+      } else {
+        setError(response.message || 'Failed to create task');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to create task');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addSkill = () => {
+    if (newSkill.trim() && !formData.skillsRequired.includes(newSkill.trim())) {
+      setFormData({
+        ...formData,
+        skillsRequired: [...formData.skillsRequired, newSkill.trim()]
+      });
+      setNewSkill('');
+    }
+  };
+
+  const removeSkill = (skillToRemove) => {
+    setFormData({
+      ...formData,
+      skillsRequired: formData.skillsRequired.filter(skill => skill !== skillToRemove)
+    });
+  };
+
+  return (
+    <div className="task-creation-form">
+      <h2>Create New Task</h2>
+      
+      {error && <div className="error-message">{error}</div>}
+      
+      <form onSubmit={handleSubmit}>
+        {/* Task Title */}
+        <div className="form-group">
+          <label htmlFor="title">Task Title *</label>
+          <input
+            type="text"
+            id="title"
+            value={formData.title}
+            onChange={(e) => setFormData({...formData, title: e.target.value})}
+            required
+            maxLength={200}
+          />
+        </div>
+
+        {/* Description */}
+        <div className="form-group">
+          <label htmlFor="description">Description *</label>
+          <textarea
+            id="description"
+            value={formData.description}
+            onChange={(e) => setFormData({...formData, description: e.target.value})}
+            required
+            maxLength={2000}
+            rows={4}
+          />
+        </div>
+
+        {/* Category */}
+        <div className="form-group">
+          <label htmlFor="category">Category *</label>
+          <select
+            id="category"
+            value={formData.category}
+            onChange={(e) => setFormData({...formData, category: e.target.value})}
+            required
+          >
+            {taskCategories.map(cat => (
+              <option key={cat.value} value={cat.value}>{cat.label}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Special Requirements */}
+        <div className="form-group">
+          <label htmlFor="specialRequirements">Special Requirements</label>
+          <textarea
+            id="specialRequirements"
+            value={formData.specialRequirements}
+            onChange={(e) => setFormData({...formData, specialRequirements: e.target.value})}
+            rows={3}
+          />
+        </div>
+
+        {/* Price and Pricing Type */}
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="price">Price ($) *</label>
+            <input
+              type="number"
+              id="price"
+              value={formData.price}
+              onChange={(e) => setFormData({...formData, price: e.target.value})}
+              required
+              min="0"
+              step="0.01"
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="pricingType">Pricing Type</label>
+            <select
+              id="pricingType"
+              value={formData.pricingType}
+              onChange={(e) => setFormData({...formData, pricingType: e.target.value})}
+            >
+              <option value="FIXED">Fixed Price</option>
+              <option value="HOURLY">Hourly Rate</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Deadline and Duration */}
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="deadline">Deadline</label>
+            <input
+              type="datetime-local"
+              id="deadline"
+              value={formData.deadline}
+              onChange={(e) => setFormData({...formData, deadline: e.target.value})}
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="estimatedDurationHours">Estimated Duration (hours)</label>
+            <input
+              type="number"
+              id="estimatedDurationHours"
+              value={formData.estimatedDurationHours}
+              onChange={(e) => setFormData({...formData, estimatedDurationHours: parseInt(e.target.value)})}
+              min="1"
+            />
+          </div>
+        </div>
+
+        {/* Urgent Checkbox */}
+        <div className="form-group checkbox-group">
+          <label>
+            <input
+              type="checkbox"
+              checked={formData.isUrgent}
+              onChange={(e) => setFormData({...formData, isUrgent: e.target.checked})}
+            />
+            This is urgent
+          </label>
+        </div>
+
+        {/* Location */}
+        <div className="form-group">
+          <label htmlFor="cityArea">City/Area *</label>
+          <input
+            type="text"
+            id="cityArea"
+            value={formData.cityArea}
+            onChange={(e) => setFormData({...formData, cityArea: e.target.value, location: e.target.value})}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="fullAddress">Full Address</label>
+          <textarea
+            id="fullAddress"
+            value={formData.fullAddress}
+            onChange={(e) => setFormData({...formData, fullAddress: e.target.value})}
+            rows={2}
+          />
+        </div>
+
+        {/* Skills Required */}
+        <div className="form-group">
+          <label>Skills Required</label>
+          <div className="skills-input">
+            <input
+              type="text"
+              value={newSkill}
+              onChange={(e) => setNewSkill(e.target.value)}
+              placeholder="Add a skill..."
+              onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
+            />
+            <button type="button" onClick={addSkill}>Add</button>
+          </div>
+          
+          <div className="skills-list">
+            {formData.skillsRequired.map((skill, index) => (
+              <span key={index} className="skill-tag">
+                {skill}
+                <button type="button" onClick={() => removeSkill(skill)}>×</button>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Submit Buttons */}
+        <div className="form-actions">
+          <button type="button" onClick={() => window.history.back()}>
+            Cancel
+          </button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Creating Task...' : 'Create Task'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default TaskCreationForm;
+```
 ```javascript
 import React, { useState, useEffect } from 'react';
 import { taskService } from '../../services/tasks';
@@ -1321,7 +1622,227 @@ export default ChatRoom;
   }
 }
 
-/* Dark Mode Support */
+/* Task Creation Form Styles */
+.task-creation-form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.task-creation-form h2 {
+  margin-bottom: 2rem;
+  color: #333;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e1e5e9;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Skills Input */
+.skills-input {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.skills-input input {
+  flex: 1;
+}
+
+.skills-input button {
+  padding: 0.75rem 1.5rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.skills-input button:hover {
+  background: #5a67d8;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: #e3f2fd;
+  color: #1976d2;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  border: 1px solid #bbdefb;
+}
+
+.skill-tag button {
+  background: none;
+  border: none;
+  color: #1976d2;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.2rem;
+  line-height: 1;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.skill-tag button:hover {
+  background: rgba(25, 118, 210, 0.1);
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e1e5e9;
+}
+
+.form-actions button {
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.form-actions button[type="button"] {
+  background: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #e1e5e9;
+}
+
+.form-actions button[type="button"]:hover {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.form-actions button[type="submit"] {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+}
+
+.form-actions button[type="submit"]:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.form-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .task-creation-form {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .form-row .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .skills-input {
+    flex-direction: column;
+  }
+}
 @media (prefers-color-scheme: dark) {
   .chat-container {
     border-color: #444;
