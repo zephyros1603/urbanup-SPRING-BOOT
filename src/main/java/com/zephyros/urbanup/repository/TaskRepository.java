@@ -157,4 +157,12 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
                                             @Param("pricingType") Task.PricingType pricingType,
                                             @Param("isUrgent") Boolean isUrgent,
                                             Pageable pageable);
+    
+    // Find OPEN tasks excluding those the user has already applied for
+    @Query("SELECT DISTINCT t FROM Task t LEFT JOIN FETCH t.poster LEFT JOIN FETCH t.fulfiller " +
+           "WHERE t.status = :status " +
+           "AND t.id NOT IN (SELECT ta.task.id FROM TaskApplication ta WHERE ta.applicant.id = :userId) " +
+           "AND t.poster.id != :userId " +
+           "ORDER BY t.createdAt DESC")
+    List<Task> findAvailableTasksExcludingUserApplications(@Param("status") Task.TaskStatus status, @Param("userId") Long userId);
 }

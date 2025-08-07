@@ -21,6 +21,7 @@ import com.zephyros.urbanup.dto.TaskCreateDto;
 import com.zephyros.urbanup.model.Task;
 import com.zephyros.urbanup.model.TaskApplication;
 import com.zephyros.urbanup.repository.TaskRepository;
+import com.zephyros.urbanup.security.CurrentUserService;
 import com.zephyros.urbanup.service.TaskService;
 
 import jakarta.validation.Valid;
@@ -34,6 +35,9 @@ public class TaskController {
     
     @Autowired
     private TaskRepository taskRepository;
+    
+    @Autowired
+    private CurrentUserService currentUserService;
     
     /**
      * Create a new task
@@ -241,12 +245,16 @@ public class TaskController {
     
     /**
      * Get all available tasks (only OPEN tasks that can be applied for)
+     * Excludes tasks the current user has already applied for and their own tasks
      */
     @GetMapping
     public ResponseEntity<ApiResponse<List<Task>>> getAllTasks() {
         try {
-            // Only return tasks with OPEN status that are available for application
-            List<Task> tasks = taskRepository.findAllByStatusEager(Task.TaskStatus.OPEN);
+            // Get current user ID (null if not authenticated)
+            Long currentUserId = currentUserService.getCurrentUserId();
+            
+            // Get available tasks excluding those the user has applied for
+            List<Task> tasks = taskService.getAvailableTasksForUser(currentUserId);
             
             ApiResponse<List<Task>> response = new ApiResponse<>(true, "Available tasks retrieved successfully", tasks);
             return ResponseEntity.ok(response);
@@ -311,6 +319,7 @@ public class TaskController {
     
     /**
      * Search tasks (defaults to OPEN tasks only unless status is specified)
+     * Excludes tasks the current user has already applied for
      */
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<Task>>> searchTasks(
@@ -320,12 +329,20 @@ public class TaskController {
             @RequestParam(defaultValue = "20") int limit,
             @RequestParam(defaultValue = "0") int offset) {
         try {
-            // If no status is specified, default to OPEN tasks only
-            Task.TaskStatus searchStatus = (status != null) ? status : Task.TaskStatus.OPEN;
-            List<Task> tasks = taskService.searchTasks(keyword, category, searchStatus, limit, offset);
+            // Get current user ID
+            Long currentUserId = currentUserService.getCurrentUserId();
             
-            ApiResponse<List<Task>> response = new ApiResponse<>(true, "Search completed", tasks);
-            return ResponseEntity.ok(response);
+            // If no status is specified, use user-filtered search for OPEN tasks
+            if (status == null) {
+                List<Task> tasks = taskService.searchTasksForUser(keyword, category, Task.TaskStatus.OPEN, currentUserId, limit, offset);
+                ApiResponse<List<Task>> response = new ApiResponse<>(true, "Search completed", tasks);
+                return ResponseEntity.ok(response);
+            } else {
+                // If specific status is requested, use regular search (admin/debugging purposes)
+                List<Task> tasks = taskService.searchTasks(keyword, category, status, limit, offset);
+                ApiResponse<List<Task>> response = new ApiResponse<>(true, "Search completed", tasks);
+                return ResponseEntity.ok(response);
+            }
             
         } catch (Exception e) {
             ApiResponse<List<Task>> response = new ApiResponse<>(false, "Search failed", null);
@@ -353,13 +370,16 @@ public class TaskController {
     }
     
     /**
-     * Get tasks by category (only OPEN tasks)
+     * Get tasks by category (only OPEN tasks, excludes user's applied tasks)
      */
     @GetMapping("/category/{category}")
     public ResponseEntity<ApiResponse<List<Task>>> getTasksByCategory(@PathVariable Task.TaskCategory category) {
         try {
-            // Only return OPEN tasks for the specified category
-            List<Task> tasks = taskService.searchTasks(null, category, Task.TaskStatus.OPEN, 50, 0);
+            // Get current user ID
+            Long currentUserId = currentUserService.getCurrentUserId();
+            
+            // Use search with category filter to exclude user's applied tasks
+            List<Task> tasks = taskService.searchTasksForUser(null, category, Task.TaskStatus.OPEN, currentUserId, 50, 0);
             
             ApiResponse<List<Task>> response = new ApiResponse<>(true, "Category tasks retrieved", tasks);
             return ResponseEntity.ok(response);

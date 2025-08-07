@@ -163,6 +163,39 @@ public class TaskService {
         return true;
     }
     
+    /**
+     * Delete a task (only allowed if no one has applied and task is OPEN)
+     */
+    public boolean deleteTask(Long taskId, Long posterId) {
+        Optional<Task> taskOpt = taskRepository.findById(taskId);
+        if (taskOpt.isEmpty()) {
+            return false;
+        }
+        
+        Task task = taskOpt.get();
+        
+        // Validate ownership
+        if (!task.getPoster().getId().equals(posterId)) {
+            throw new IllegalArgumentException("Only task poster can delete the task");
+        }
+        
+        // Only allow deletion if task is OPEN
+        if (task.getStatus() != Task.TaskStatus.OPEN) {
+            throw new IllegalArgumentException("Cannot delete task that is not OPEN");
+        }
+        
+        // Check if there are any applications
+        Long applicationCount = taskApplicationRepository.countApplicationsForTask(task);
+        if (applicationCount > 0) {
+            throw new IllegalArgumentException("Cannot delete task that has applications. Cancel the task instead.");
+        }
+        
+        // Delete the task
+        taskRepository.delete(task);
+        
+        return true;
+    }
+    
     // Task Application Management
     
     /**
@@ -389,7 +422,7 @@ public class TaskService {
     // Search and Discovery
     
     /**
-     * Search tasks with basic filters
+     * Search tasks with basic filters (excludes tasks the user has applied for)
      */
     @Transactional(readOnly = true)
     public List<Task> searchTasks(String searchTerm, Task.TaskCategory category, 
@@ -416,6 +449,57 @@ public class TaskService {
                     .limit(limit)
                     .toList();
         }
+    }
+    
+    /**
+     * Search tasks with user filtering (excludes tasks the user has applied for)
+     */
+    @Transactional(readOnly = true)
+    public List<Task> searchTasksForUser(String searchTerm, Task.TaskCategory category, 
+                                        Task.TaskStatus status, Long userId, int limit, int offset) {
+        
+        if (userId == null) {
+            // Fallback to regular search if no user ID
+            return searchTasks(searchTerm, category, status, limit, offset);
+        }
+        
+        // Get tasks excluding user's applications and own tasks
+        List<Task> allAvailableTasks = taskRepository.findAvailableTasksExcludingUserApplications(Task.TaskStatus.OPEN, userId);
+        
+        // Apply additional filters
+        return allAvailableTasks.stream()
+                .filter(task -> {
+                    // Category filter
+                    if (category != null && !task.getCategory().equals(category)) {
+                        return false;
+                    }
+                    
+                    // Search term filter (title, description, location)
+                    if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+                        String lowerSearchTerm = searchTerm.toLowerCase();
+                        return task.getTitle().toLowerCase().contains(lowerSearchTerm) ||
+                               task.getDescription().toLowerCase().contains(lowerSearchTerm) ||
+                               task.getLocation().toLowerCase().contains(lowerSearchTerm);
+                    }
+                    
+                    return true;
+                })
+                .skip(offset)
+                .limit(limit)
+                .toList();
+    }
+    
+    /**
+     * Get available tasks for a specific user (excludes tasks they've applied for and their own tasks)
+     */
+    @Transactional(readOnly = true)
+    public List<Task> getAvailableTasksForUser(Long userId) {
+        if (userId == null) {
+            // If no user ID, return all OPEN tasks (for unauthenticated access)
+            return taskRepository.findAllByStatusEager(Task.TaskStatus.OPEN);
+        }
+        
+        return taskRepository.findAvailableTasksExcludingUserApplications(Task.TaskStatus.OPEN, userId);
     }
     
     /**
