@@ -395,15 +395,17 @@ public class TaskService {
     public List<Task> searchTasks(String searchTerm, Task.TaskCategory category, 
                                  Task.TaskStatus status, int limit, int offset) {
         
-        if (category != null) {
-            return taskRepository.findAllByCategoryEager(category)
+        // Priority order: status first, then category, then default to OPEN
+        if (status != null) {
+            return taskRepository.findAllByStatusEager(status)
                     .stream()
                     .skip(offset)
                     .limit(limit)
                     .toList();
-        } else if (status != null) {
-            return taskRepository.findAllByStatusEager(status)
+        } else if (category != null) {
+            return taskRepository.findAllByCategoryEager(category)
                     .stream()
+                    .filter(task -> task.getStatus() == Task.TaskStatus.OPEN) // Only OPEN tasks by default
                     .skip(offset)
                     .limit(limit)
                     .toList();

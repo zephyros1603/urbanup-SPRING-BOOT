@@ -240,19 +240,37 @@ public class TaskController {
     }
     
     /**
-     * Get all available tasks
+     * Get all available tasks (only OPEN tasks that can be applied for)
      */
     @GetMapping
     public ResponseEntity<ApiResponse<List<Task>>> getAllTasks() {
         try {
-            // Use repository method with eager fetching to avoid lazy loading issues
-            List<Task> tasks = taskRepository.findAllWithUsersEager();
+            // Only return tasks with OPEN status that are available for application
+            List<Task> tasks = taskRepository.findAllByStatusEager(Task.TaskStatus.OPEN);
             
-            ApiResponse<List<Task>> response = new ApiResponse<>(true, "Tasks retrieved successfully", tasks);
+            ApiResponse<List<Task>> response = new ApiResponse<>(true, "Available tasks retrieved successfully", tasks);
             return ResponseEntity.ok(response);
             
         } catch (Exception e) {
             ApiResponse<List<Task>> response = new ApiResponse<>(false, "Failed to retrieve tasks", null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+    
+    /**
+     * Get all tasks regardless of status (for admin purposes)
+     */
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse<List<Task>>> getAllTasksAllStatuses() {
+        try {
+            // Return all tasks regardless of status
+            List<Task> tasks = taskRepository.findAllWithUsersEager();
+            
+            ApiResponse<List<Task>> response = new ApiResponse<>(true, "All tasks retrieved successfully", tasks);
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            ApiResponse<List<Task>> response = new ApiResponse<>(false, "Failed to retrieve all tasks", null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
@@ -292,7 +310,7 @@ public class TaskController {
     }
     
     /**
-     * Search tasks
+     * Search tasks (defaults to OPEN tasks only unless status is specified)
      */
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<Task>>> searchTasks(
@@ -302,7 +320,9 @@ public class TaskController {
             @RequestParam(defaultValue = "20") int limit,
             @RequestParam(defaultValue = "0") int offset) {
         try {
-            List<Task> tasks = taskService.searchTasks(keyword, category, status, limit, offset);
+            // If no status is specified, default to OPEN tasks only
+            Task.TaskStatus searchStatus = (status != null) ? status : Task.TaskStatus.OPEN;
+            List<Task> tasks = taskService.searchTasks(keyword, category, searchStatus, limit, offset);
             
             ApiResponse<List<Task>> response = new ApiResponse<>(true, "Search completed", tasks);
             return ResponseEntity.ok(response);
@@ -333,13 +353,13 @@ public class TaskController {
     }
     
     /**
-     * Get tasks by category
+     * Get tasks by category (only OPEN tasks)
      */
     @GetMapping("/category/{category}")
     public ResponseEntity<ApiResponse<List<Task>>> getTasksByCategory(@PathVariable Task.TaskCategory category) {
         try {
-            // Use the search method with category filter
-            List<Task> tasks = taskService.searchTasks(null, category, null, 50, 0);
+            // Only return OPEN tasks for the specified category
+            List<Task> tasks = taskService.searchTasks(null, category, Task.TaskStatus.OPEN, 50, 0);
             
             ApiResponse<List<Task>> response = new ApiResponse<>(true, "Category tasks retrieved", tasks);
             return ResponseEntity.ok(response);
