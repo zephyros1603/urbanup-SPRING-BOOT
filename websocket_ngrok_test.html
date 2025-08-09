@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanUp WebSocket Chat Test - ngrok</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .chat-container {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        .chat-header {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #dc3545;
+        }
+        .status-dot.connected {
+            background: #28a745;
+        }
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #fafafa;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 8px;
+            max-width: 70%;
+        }
+        .message.own {
+            background: #007bff;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+        }
+        .message.other {
+            background: white;
+            border: 1px solid #eee;
+        }
+        .message.system {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            text-align: center;
+            margin: 5px auto;
+            max-width: 50%;
+            font-style: italic;
+        }
+        .message-header {
+            font-size: 0.8em;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+        .message-time {
+            font-size: 0.7em;
+            opacity: 0.6;
+            margin-top: 5px;
+        }
+        .input-area {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            background: white;
+            border-radius: 0 0 8px 8px;
+            gap: 10px;
+        }
+        .input-area input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .input-area button {
+            padding: 12px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .input-area button:hover {
+            background: #0056b3;
+        }
+        .input-area button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .config-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .config-section h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .alert {
+            padding: 12px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .alert-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        .alert-danger {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 UrbanUp WebSocket Chat Test - ngrok</h1>
+        <p>Test real-time chat functionality with your ngrok tunnel.</p>
+        
+        <div class="config-section">
+            <h3>⚙️ Connection Configuration</h3>
+            
+            <div class="form-group">
+                <label for="ngrokUrl">Ngrok URL (your backend URL):</label>
+                <input type="text" id="ngrokUrl" placeholder="https://your-ngrok-url.ngrok-free.app" 
+                       value="https://49fbc293c4f1.ngrok-free.app">
+            </div>
+            
+            <div class="form-group">
+                <label for="authToken">JWT Token (copy from your app):</label>
+                <input type="text" id="authToken" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+            </div>
+            
+            <div class="form-group">
+                <label for="chatId">Chat ID:</label>
+                <input type="number" id="chatId" placeholder="14" value="14">
+            </div>
+            
+            <div class="form-group">
+                <label for="currentUserId">Current User ID:</label>
+                <input type="number" id="currentUserId" placeholder="1" value="1">
+            </div>
+            
+            <button class="btn btn-primary" onclick="connect()">🔌 Connect to WebSocket</button>
+            <button class="btn btn-danger" onclick="disconnect()">🔌 Disconnect</button>
+            <button class="btn btn-success" onclick="testLogin()">🔑 Test Login</button>
+        </div>
+        
+        <div id="status" class="alert alert-info">
+            Ready to connect. Enter your ngrok URL and JWT token above.
+        </div>
+        
+        <div class="chat-container">
+            <div class="chat-header">
+                <h3>💬 Real-time Chat</h3>
+                <div class="connection-status">
+                    <div id="connectionDot" class="status-dot"></div>
+                    <span id="connectionText">Disconnected</span>
+                </div>
+            </div>
+            
+            <div id="messages" class="messages">
+                <div class="message system">
+                    Welcome! Configure your connection above and click "Connect to WebSocket".
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <input type="text" id="messageInput" placeholder="Type your message..." 
+                       onkeypress="if(event.key==='Enter') sendMessage()" disabled>
+                <button onclick="sendMessage()" disabled id="sendButton">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let stompClient = null;
+        let connected = false;
+        
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `alert alert-${type}`;
+            statusDiv.textContent = message;
+        }
+        
+        function updateConnectionStatus(isConnected) {
+            connected = isConnected;
+            const dot = document.getElementById('connectionDot');
+            const text = document.getElementById('connectionText');
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+            
+            if (isConnected) {
+                dot.classList.add('connected');
+                text.textContent = 'Connected';
+                messageInput.disabled = false;
+                sendButton.disabled = false;
+            } else {
+                dot.classList.remove('connected');
+                text.textContent = 'Disconnected';
+                messageInput.disabled = true;
+                sendButton.disabled = true;
+            }
+        }
+        
+        function addMessage(content, sender = 'system', isOwn = false) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            
+            if (sender === 'system') {
+                messageDiv.className = 'message system';
+                messageDiv.innerHTML = content;
+            } else {
+                messageDiv.className = isOwn ? 'message own' : 'message other';
+                
+                const time = new Date().toLocaleTimeString();
+                messageDiv.innerHTML = `
+                    ${!isOwn ? `<div class="message-header">${sender}</div>` : ''}
+                    <div>${content}</div>
+                    <div class="message-time">${time}</div>
+                `;
+            }
+            
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        function testLogin() {
+            const ngrokUrl = document.getElementById('ngrokUrl').value.trim();
+            if (!ngrokUrl) {
+                updateStatus('Please enter your ngrok URL first', 'danger');
+                return;
+            }
+            
+            updateStatus('Testing login with backend...', 'info');
+            
+            // Test login with the backend
+            fetch(`${ngrokUrl}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: 'john.doe@example.com',
+                    password: 'password123'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Login response:', data);
+                if (data.success && data.data.accessToken) {
+                    document.getElementById('authToken').value = data.data.accessToken;
+                    document.getElementById('currentUserId').value = data.data.user.id;
+                    updateStatus('✅ Login successful! Token and user ID populated. You can now connect to WebSocket.', 'success');
+                } else {
+                    updateStatus('❌ Login failed: ' + (data.message || 'Unknown error'), 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Login error:', error);
+                updateStatus('❌ Login error: ' + error.message, 'danger');
+            });
+        }
+        
+        function connect() {
+            const ngrokUrl = document.getElementById('ngrokUrl').value.trim();
+            const token = document.getElementById('authToken').value.trim();
+            const chatId = document.getElementById('chatId').value.trim();
+            
+            if (!ngrokUrl) {
+                updateStatus('Please enter your ngrok URL', 'danger');
+                return;
+            }
+            
+            if (!token) {
+                updateStatus('Please enter your JWT token (use "Test Login" button)', 'danger');
+                return;
+            }
+            
+            if (!chatId) {
+                updateStatus('Please enter a chat ID', 'danger');
+                return;
+            }
+            
+            updateStatus('Connecting to WebSocket...', 'info');
+            addMessage('Connecting to WebSocket...', 'system');
+            
+            // Convert HTTPS to WSS for WebSocket
+            const wsUrl = ngrokUrl.replace('https://', 'wss://').replace('http://', 'ws://') + '/api/ws';
+            console.log('WebSocket URL:', wsUrl);
+            
+            try {
+                const socket = new SockJS(wsUrl);
+                stompClient = Stomp.over(socket);
+                
+                // Enable debug
+                stompClient.debug = function(str) {
+                    console.log('STOMP Debug:', str);
+                };
+                
+                stompClient.connect(
+                    { 'Authorization': `Bearer ${token}` },
+                    function(frame) {
+                        console.log('Connected:', frame);
+                        updateStatus('✅ Connected to WebSocket successfully!', 'success');
+                        updateConnectionStatus(true);
+                        addMessage('Connected to WebSocket successfully! 🎉', 'system');
+                        
+                        // Subscribe to chat messages
+                        stompClient.subscribe(`/topic/chat/${chatId}`, function(message) {
+                            console.log('Received message:', message.body);
+                            const data = JSON.parse(message.body);
+                            const currentUserId = document.getElementById('currentUserId').value;
+                            const isOwn = data.senderId == currentUserId;
+                            const senderName = data.senderName || `User ${data.senderId}`;
+                            addMessage(data.content, senderName, isOwn);
+                        });
+                        
+                        // Subscribe to typing indicators
+                        stompClient.subscribe(`/topic/chat/${chatId}/typing`, function(message) {
+                            console.log('Typing indicator:', message.body);
+                            const data = JSON.parse(message.body);
+                            if (data.isTyping) {
+                                addMessage(`User ${data.userId} is typing...`, 'system');
+                            }
+                        });
+                        
+                        addMessage('Subscribed to chat updates! You can now send messages.', 'system');
+                    },
+                    function(error) {
+                        console.error('Connection error:', error);
+                        updateStatus('❌ Connection failed: ' + error, 'danger');
+                        updateConnectionStatus(false);
+                        addMessage('Connection failed: ' + error, 'system');
+                    }
+                );
+            } catch (error) {
+                console.error('Connection setup error:', error);
+                updateStatus('❌ Connection setup failed: ' + error.message, 'danger');
+                addMessage('Connection setup failed: ' + error.message, 'system');
+            }
+        }
+        
+        function disconnect() {
+            if (stompClient) {
+                stompClient.disconnect();
+                stompClient = null;
+            }
+            updateConnectionStatus(false);
+            updateStatus('Disconnected from WebSocket', 'info');
+            addMessage('Disconnected from WebSocket', 'system');
+        }
+        
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            const chatId = document.getElementById('chatId').value.trim();
+            const currentUserId = document.getElementById('currentUserId').value.trim();
+            
+            if (!message || !connected) {
+                return;
+            }
+            
+            // Send via REST API for reliability (as in the React component)
+            const ngrokUrl = document.getElementById('ngrokUrl').value.trim();
+            const token = document.getElementById('authToken').value.trim();
+            
+            fetch(`${ngrokUrl}/api/chats/${chatId}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    content: message,
+                    senderId: parseInt(currentUserId),
+                    messageType: 'TEXT'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageInput.value = '';
+                    console.log('Message sent successfully:', data);
+                } else {
+                    updateStatus('❌ Failed to send message: ' + data.message, 'danger');
+                }
+            })
+            .catch(error => {
+                console.error('Send message error:', error);
+                updateStatus('❌ Failed to send message: ' + error.message, 'danger');
+            });
+        }
+        
+        // Add some helpful information
+        addMessage('💡 Tips for testing:', 'system');
+        addMessage('1. Enter your ngrok URL (e.g., https://your-url.ngrok-free.app)', 'system');
+        addMessage('2. Click "Test Login" to get a JWT token automatically', 'system');
+        addMessage('3. Make sure Chat ID exists (14 should work from previous tests)', 'system');
+        addMessage('4. Click "Connect to WebSocket" to start real-time chat', 'system');
+        addMessage('5. Open this page in multiple tabs to test multi-user chat!', 'system');
+    </script>
+</body>
+</html>

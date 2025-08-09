@@ -172,7 +172,7 @@ class WebSocketService {
 
   connect(token) {
     return new Promise((resolve, reject) => {
-      const socket = new SockJS(process.env.REACT_APP_WS_URL || 'http://localhost:8080/ws');
+      const socket = new SockJS(process.env.REACT_APP_WS_URL || 'http://localhost:8080/api/ws');
       
       this.client = new Client({
         webSocketFactory: () => socket,

@@ -367,7 +367,7 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 
 // Create WebSocket connection
-const socket = new SockJS('http://localhost:8080/ws');
+const socket = new SockJS('http://localhost:8080/api/ws');
 const stompClient = Stomp.over(socket);
 
 // Connect with authentication

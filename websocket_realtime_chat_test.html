@@ -285,7 +285,7 @@
 
             log('🔗 Connecting to WebSocket...');
             
-            const socket = new SockJS(`${serverUrl}/ws`);
+            const socket = new SockJS(`${serverUrl}/api/ws`);
             stompClient = StompJs.Stomp.over(socket);
 
             stompClient.connect(
